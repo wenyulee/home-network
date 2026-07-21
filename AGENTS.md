@@ -24,4 +24,9 @@ This is a **configuration/documentation backup** for a dual-router home network 
 - `wan-start` sets Asuswrt `nvram` and writes `/tmp/resolv.*`; **do not run it on the VM** — it is only meaningful on the router.
 
 ### Secrets
-Committed files contain the placeholder `REDACTED_MIXED_AUTH` (and `secrets.example` has `change-me`); real mixed-port auth lives only on the routers. No secrets are needed for local lint/validate/transform demos.
+Committed files contain the placeholder `REDACTED_MIXED_AUTH` (and `secrets.example` has `change-me`); real mixed-port auth lives only on the routers. No secrets are needed for local lint/validate/transform demos. Cloud agents typically cannot SSH to `192.168.50.1` / `192.168.8.1`; on-device diagnosis needs credentials or user-pasted output from the routers/clients.
+
+### On-device troubleshooting notes (from live client symptoms)
+- B-side clients use OpenClash **fake-ip** (`198.18.0.0/16`). Resolving e.g. `www.linkedin.com` → `198.18.x.x` is expected, not DNS pollution.
+- Pattern **TCP connects to fake-ip, then TLS handshake times out** means the path Mac→Clash hijack is fine; the failure is the **selected outbound / proxy chain** (dead node, LinkedIn blocking the exit IP, or A↔B double-proxy). See pending item in `docs/changelog/2026-07-22-firstrade-and-dns.md` about restoring A's `ip_filter` bypass for B WAN `192.168.50.180` / `.174`.
+- This repo has **no LinkedIn-specific rules**; default subscription GEOIP/rule-set chooses the outbound. Quick client checks: OpenClash Dashboard → inspect Rule/Chains for the connection; try DIRECT vs another node; compare with `curl -x http://127.0.0.1:<mixed-port>`.
