@@ -26,7 +26,7 @@ docs/changelog/                  # 變更紀錄
 1. **系統 DNS（A）**：`223.5.5.5` / `119.29.29.29`（`wan-start` 持久化）
 2. **Firstrade**：`DOMAIN-SUFFIX` → `DIRECT`；DNS 僅 `https://1.1.1.1/dns-query`；hosts 釘選主要 CDN IP（備援）
 3. **B `respect-rules`**：需乾淨 `direct-nameserver`（CF DoH），否則 DIRECT 域名會吃到污染解析
-4. **排除 B 二次代理**：已恢復 A `ip_filter` 排除 B WAN `192.168.50.180` / `.174`（確認異常機為 B 側 `192.168.8.182`；見 `docs/changelog/2026-07-22-b-bypass-restore.md`）
+4. **B 二次代理**：對 B 側 `192.168.8.182`，**雙層代理時大部分站才可連**；A `ip_filter` 保持清空（不排除 B WAN）。少數站（如 LinkedIn）另查 B 出口／規則，見 `docs/changelog/2026-07-22-b-double-proxy-keep.md`
 
 ## 還原提示
 
