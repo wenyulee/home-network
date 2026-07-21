@@ -21,7 +21,7 @@ Router A LAN 192.168.50.1  ← ShellCrash (Mihomo)
 
 - **A**：全域規則代理；mixed-port `7890`（LAN 需 auth，供 B `via-RouterA` socks5 使用）。
 - **B**：獨立訂閱節點；另有 `via-RouterA` → A:7890，用於 `gmail-out` fallback。
-- **雙重代理風險**：B 的節點出口 IP 若再被 A 二次代理，會疊加延遲/異常。曾用 A `ip_filter` blacklist `192.168.50.180/174` 排除；**目前已回溯**，待另機檢查後再決策。
+- **雙重代理風險**：B 的節點連線源 IP 若再被 A 透明代理，會疊加延遲/異常。A `ip_filter` blacklist 排除 B WAN `192.168.50.180` / `.174`（`RETURN` 不進代理鏈）。曾短暫回滾，確認異常機為 `192.168.8.182` 後已恢復。
 
 ## DNS 分工
 

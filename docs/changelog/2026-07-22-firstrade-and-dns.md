@@ -49,6 +49,6 @@
 
 ## 待辦
 
-- [ ] 另機問題查清後，再決定是否恢復 A 對 B WAN 的 `ip_filter` 排除
+- [x] 另機問題查清後，再決定是否恢復 A 對 B WAN 的 `ip_filter` 排除 → 見 `2026-07-22-b-bypass-restore.md`（機為 `192.168.8.182`，已恢復）
 - [ ] （可選）hosts CDN IP 定期用 CF DoH 刷新
 - [ ] 訂閱 04:00 更新若 `-t` 失敗仍依 post_sub 還原 bak；觀察是否穩定
