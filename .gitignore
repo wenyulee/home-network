@@ -1,5 +1,4 @@
 # Never commit live secrets or full subscription dumps
-**/*secret*
 **/*.bak
 **/config.yaml
 **/ssLinks.yaml
@@ -7,3 +6,4 @@
 .env
 .env.*
 secrets.local.*
+!secrets.example
