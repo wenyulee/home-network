@@ -1,0 +1,10 @@
+  'api3x.firstrade.com': 54.230.70.76
+  'streamingx.firstrade.com': 18.65.14.45
+  'rec.firstrade.net': 13.226.69.45
+  'www.firstrade.com': 76.76.21.61
+  'invest.firstrade.com': 54.230.70.83
+  use-hosts: true
+  direct-nameserver: [ 'https://1.1.1.1/dns-query', 'https://doh.pub/dns-query' ]
+  nameserver-policy: {"rule-set:cn": [ 223.5.5.5, 119.29.29.29 ], "+.firstrade.com": [ 'https://1.1.1.1/dns-query' ], "+.firstrade.net": [ 'https://1.1.1.1/dns-query' ]}
+ - DOMAIN-SUFFIX,firstrade.com,DIRECT #Firstrade managed
+ - DOMAIN-SUFFIX,firstrade.net,DIRECT #Firstrade managed

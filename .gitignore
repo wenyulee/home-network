@@ -1,0 +1,9 @@
+# Never commit live secrets or full subscription dumps
+**/*secret*
+**/*.bak
+**/config.yaml
+**/ssLinks.yaml
+**/cache.db
+.env
+.env.*
+secrets.local.*

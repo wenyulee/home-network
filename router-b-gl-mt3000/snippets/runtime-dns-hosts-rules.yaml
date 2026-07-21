@@ -1,0 +1,55 @@
+---
+dns:
+  enable: true
+  ipv6: false
+  default-nameserver:
+  - tcp://223.5.5.5
+  - tls://223.5.5.5
+  - 119.29.29.29
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter: []  # truncated in repo; full list lives on device
+  nameserver:
+  - https://doh.pub/dns-query
+  - https://1.1.1.1/dns-query
+  - https://dns.alidns.com/dns-query
+  listen: 0.0.0.0:7874
+  respect-rules: true
+  proxy-server-nameserver:
+  - tcp://223.5.5.5
+  - tls://223.5.5.5
+  - 119.29.29.29
+  use-hosts: true
+  direct-nameserver:
+  - https://1.1.1.1/dns-query
+  - https://doh.pub/dns-query
+  nameserver-policy:
+    "+.firstrade.com":
+    - https://1.1.1.1/dns-query
+    "+.firstrade.net":
+    - https://1.1.1.1/dns-query
+hosts:
+  api3x.firstrade.com: 54.230.70.76
+  streamingx.firstrade.com: 18.65.14.45
+  rec.firstrade.net: 13.226.69.45
+  www.firstrade.com: 76.76.21.61
+  invest.firstrade.com: 54.230.70.83
+rules_prefix:
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
+- DOMAIN,smtp.gmail.com,gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,142.250.0.0/15)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,142.250.0.0/15)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,173.194.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,173.194.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,209.85.128.0/17)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,209.85.128.0/17)),gmail-out
+- DOMAIN-SUFFIX,mail.me.com,DIRECT
+meta:
+  mixed-port: 7893
+  mode: rule
+  enhanced-mode: fake-ip
+  respect-rules: true
+  fake-ip-range: 198.18.0.1/16

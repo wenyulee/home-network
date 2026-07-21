@@ -1,0 +1,15 @@
+rules:
+## Firstrade: stable home IP + clean DoH
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
+## Mail SMTP + Rebrickable (managed)
+## smtp.gmail.com -> gmail-out (via-RouterA fallback DIRECT) injected in overwrite.sh
+- DOMAIN-SUFFIX,mail.me.com,DIRECT
+- DOMAIN-KEYWORD,smtp.mail,DIRECT
+- DOMAIN,smtp.googlemail.com,DIRECT
+- DOMAIN,smtp-relay.gmail.com,DIRECT
+- DOMAIN,smtp.purelymail.com,DIRECT
+- DOMAIN,smtp.mail.me.com,DIRECT
+- DOMAIN-SUFFIX,rebrickable.com,🇪🇸 西班牙 01
+- DOMAIN,rebrickable.com,🇪🇸 西班牙 01
+- DOMAIN,www.rebrickable.com,🇪🇸 西班牙 01
