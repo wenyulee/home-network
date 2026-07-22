@@ -82,7 +82,7 @@ awk '
     next
   }
   /^[[:space:]]*nameserver-policy:/ {
-    print "  nameserver-policy: {\x22rule-set:cn\x22: [ 223.5.5.5, 119.29.29.29 ], \x22+.firstrade.com\x22: [ \x27https://1.1.1.1/dns-query\x27 ], \x22+.firstrade.net\x22: [ \x27https://1.1.1.1/dns-query\x27 ]}"
+    print "  nameserver-policy: {\x22rule-set:cn\x22: [ 223.5.5.5, 119.29.29.29 ], \x22+.firstrade.com\x22: [ \x27https://1.1.1.1/dns-query\x27 ], \x22+.firstrade.net\x22: [ \x27https://1.1.1.1/dns-query\x27 ], \x22+.linkedin.com\x22: [ \x27https://1.1.1.1/dns-query\x27 ], \x22+.licdn.com\x22: [ \x27https://1.1.1.1/dns-query\x27 ]}"
     next
   }
   { print }
@@ -109,6 +109,8 @@ awk '
     print "  '\''rec.firstrade.net'\'': 13.226.69.45"
     print "  '\''www.firstrade.com'\'': 76.76.21.61"
     print "  '\''invest.firstrade.com'\'': 54.230.70.83"
+    print "  '\''www.linkedin.com'\'': 104.18.41.41"
+    print "  '\''linkedin.com'\'': 130.211.32.14"
     print ""
   }
   {print}

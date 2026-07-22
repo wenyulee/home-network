@@ -22,7 +22,7 @@ begin
     "server" => "192.168.50.1",
     "port" => 7890,
     "username" => "routerb",
-    "password" => "REDACTED_MIXED_AUTH",
+    "password" => "L7uC9mQ4xV2nP8sK",
     "udp" => false
   })
 
@@ -49,12 +49,16 @@ begin
   d["dns"]["nameserver-policy"] ||= {}
   d["dns"]["nameserver-policy"]["+.firstrade.com"] = ["https://1.1.1.1/dns-query"]
   d["dns"]["nameserver-policy"]["+.firstrade.net"] = ["https://1.1.1.1/dns-query"]
+  d["dns"]["nameserver-policy"]["+.linkedin.com"] = ["https://1.1.1.1/dns-query"]
+  d["dns"]["nameserver-policy"]["+.licdn.com"] = ["https://1.1.1.1/dns-query"]
   d["hosts"] ||= {}
   d["hosts"]["api3x.firstrade.com"] = "54.230.70.76"
   d["hosts"]["streamingx.firstrade.com"] = "18.65.14.45"
   d["hosts"]["rec.firstrade.net"] = "13.226.69.45"
   d["hosts"]["www.firstrade.com"] = "76.76.21.61"
   d["hosts"]["invest.firstrade.com"] = "54.230.70.83"
+  d["hosts"]["www.linkedin.com"] = "104.18.41.41"
+  d["hosts"]["linkedin.com"] = "130.211.32.14"
 
   d["rules"] ||= []
   d["rules"].reject! { |r|
@@ -64,6 +68,10 @@ begin
   [
     "DOMAIN-SUFFIX,firstrade.com,DIRECT",
     "DOMAIN-SUFFIX,firstrade.net,DIRECT",
+    "DOMAIN-SUFFIX,linkedin.com,全球代理",
+    "DOMAIN-SUFFIX,licdn.com,全球代理",
+    "DOMAIN-SUFFIX,linkedin.cn,REJECT",
+    "DOMAIN-SUFFIX,licdn.cn,REJECT",
     "DOMAIN,smtp.gmail.com,gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out",

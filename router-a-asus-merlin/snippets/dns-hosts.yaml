@@ -4,6 +4,8 @@ hosts:
   'rec.firstrade.net': 13.226.69.45
   'www.firstrade.com': 76.76.21.61
   'invest.firstrade.com': 54.230.70.83
+  'www.linkedin.com': 104.18.41.41
+  'linkedin.com': 130.211.32.14
 
 dns:
   enable: true
@@ -138,6 +140,6 @@ dns:
     - '+.dynv6.net'
     - "rule-set:cn"
   respect-rules: true
-  nameserver-policy: {"rule-set:cn": [ 223.5.5.5, 119.29.29.29 ], "+.firstrade.com": [ 'https://1.1.1.1/dns-query' ], "+.firstrade.net": [ 'https://1.1.1.1/dns-query' ]}
+  nameserver-policy: {"rule-set:cn": [ 223.5.5.5, 119.29.29.29 ], "+.firstrade.com": [ 'https://1.1.1.1/dns-query' ], "+.firstrade.net": [ 'https://1.1.1.1/dns-query' ], "+.linkedin.com": [ 'https://1.1.1.1/dns-query' ], "+.licdn.com": [ 'https://1.1.1.1/dns-query' ]}
   proxy-server-nameserver : [ 223.5.5.5, 2400:3200::1 ]
   nameserver: [ 'https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query' ]

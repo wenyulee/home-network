@@ -1,6 +1,10 @@
 # ShellCrash 自定义规则（启动时自动插入最前）
 - DOMAIN-SUFFIX,firstrade.com,DIRECT
 - DOMAIN-SUFFIX,firstrade.net,DIRECT
+- DOMAIN-SUFFIX,linkedin.com,全球代理
+- DOMAIN-SUFFIX,licdn.com,全球代理
+- DOMAIN-SUFFIX,linkedin.cn,REJECT
+- DOMAIN-SUFFIX,licdn.cn,REJECT
 - DST-PORT,587,DIRECT
 - DST-PORT,465,DIRECT
 - DOMAIN-SUFFIX,mail.me.com,DIRECT
