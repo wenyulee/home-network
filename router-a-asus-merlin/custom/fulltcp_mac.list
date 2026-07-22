@@ -1,3 +1,7 @@
-# Device formerly seen as 192.168.8.182 on Router B (DHCP hostname Mac)
-# Identify by MAC — do not use DHCP IP.
+# Target Mac — do not use DHCP IP (dynamic).
+# 84:94:37:d8:d0:36 = user-reported hardware Wi-Fi MAC (not seen on-wire while Private Wi-Fi Address is on)
+# 2a:f6:ff:17:72:89 = on-wire on Router B as 192.168.8.182 (hostname Mac)
+# 32:7d:9d:d0:f1:76 = on-wire on Router A as 192.168.50.62 (hostname Mac, Private Address)
+84:94:37:d8:d0:36
 2a:f6:ff:17:72:89
+32:7d:9d:d0:f1:76
