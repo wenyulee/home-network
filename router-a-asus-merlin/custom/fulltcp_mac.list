@@ -1,3 +1,8 @@
-# Target Mac — hardware Wi-Fi MAC (Private Wi-Fi Address off on this SSID).
+# Target Mac — match hardware AND Private Wi-Fi Address(es).
 # Do not use DHCP IP (dynamic).
+# Hardware (works when Private Address is off):
 84:94:37:d8:d0:36
+# Private Address currently seen on A (192.168.50.62):
+32:7d:9d:d0:f1:76
+# Private Address currently seen on B (192.168.8.182):
+2a:f6:ff:17:72:89
