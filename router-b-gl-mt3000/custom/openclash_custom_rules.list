@@ -4,6 +4,8 @@ rules:
 - DOMAIN-SUFFIX,licdn.com,全球代理
 - DOMAIN-SUFFIX,linkedin.cn,REJECT
 - DOMAIN-SUFFIX,licdn.cn,REJECT
+## Apple TV+ / Music / News only (same idea as Netflix/Disney+); rest of Apple stays DIRECT
+- RULE-SET,AppleMedia,手动选择
 ## Mail SMTP + Rebrickable (managed)
 ## Firstrade DIRECT + smtp.gmail.com -> gmail-out injected in overwrite.sh
 - DOMAIN-SUFFIX,mail.me.com,DIRECT

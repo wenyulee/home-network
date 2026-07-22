@@ -1,0 +1,6 @@
+# Firstrade: pin clean IPs so LAN dnsmasq is not polluted (system resolve was returning wrong IPs)
+address=/www.firstrade.com/76.76.21.61
+address=/api3x.firstrade.com/54.230.70.76
+address=/invest.firstrade.com/54.230.70.83
+address=/streamingx.firstrade.com/18.65.14.45
+address=/rec.firstrade.net/13.226.69.45

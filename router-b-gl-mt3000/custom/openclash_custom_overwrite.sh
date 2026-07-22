@@ -69,6 +69,7 @@ begin
   [
     "DOMAIN-SUFFIX,firstrade.com,DIRECT",
     "DOMAIN-SUFFIX,firstrade.net,DIRECT",
+    "RULE-SET,AppleMedia,手动选择",
     "DOMAIN,smtp.gmail.com,gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out",
