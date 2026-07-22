@@ -13,7 +13,8 @@ Core: OpenClash Meta，API `:9090`
 | `custom/tailscale/uci-tailscale` | `/etc/config/tailscale` |
 | （不入库） | `/etc/tailscale/tailscaled.state` |
 
-UCI 相關：`enable_custom_clash_rules=1`、`enable_respect_rules=1`、`enable_redirect_dns=1`、`core_type=Meta`
+UCI 相關：`enable_custom_clash_rules=1`、`enable_respect_rules=1`、`enable_redirect_dns=1`、`core_type=Meta`  
+IPv6（2026-07-23）：`dhcp.lan.ra/dhcpv6=disabled`、`network.wan.ipv6=0`；详见 `docs/changelog/2026-07-23-disable-lan-ipv6.md`。
 
 ## 訂製說明
 
