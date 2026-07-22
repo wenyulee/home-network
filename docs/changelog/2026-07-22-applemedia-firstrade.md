@@ -9,5 +9,5 @@
 ## Firstrade 变慢
 
 - 系统 dnsmasq 曾把 `www.firstrade.com` 解析成错误 IP（甚至 Facebook 段）；Clash hosts/DoH 正常。
-- 已加 `/jffs/configs/dnsmasq.conf.add` 钉选主域名 IPv4。
+- `/jffs/configs/dnsmasq.conf.add`：钉选主域名 IPv4，并用 `local=/firstrade.com/` 阻断上游污染 **AAAA**（曾见 `2001::766b:b4d8`，Happy Eyeballs 会先试 IPv6 → 变慢）。
 - 仍保持 `DIRECT`（家用出口 IP）；若偶发 CloudFront 慢属 ISP 抖动，可再议是否改走代理。

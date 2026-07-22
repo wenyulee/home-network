@@ -1,4 +1,6 @@
-# Firstrade: pin clean IPs so LAN dnsmasq is not polluted (system resolve was returning wrong IPs)
+# Firstrade: pin clean IPv4; local= stops upstream AAAA pollution (was 2001::...)
+local=/firstrade.com/
+local=/firstrade.net/
 address=/www.firstrade.com/76.76.21.61
 address=/api3x.firstrade.com/54.230.70.76
 address=/invest.firstrade.com/54.230.70.83
