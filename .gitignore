@@ -3,6 +3,8 @@
 **/config.yaml
 **/ssLinks.yaml
 **/cache.db
+**/tailscaled.state
+**/*tailscaled*.log
 .env
 .env.*
 secrets.local.*

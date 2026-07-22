@@ -11,7 +11,10 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 | `custom/post_sub_clean.sh` | `/jffs/ShellCrash/yamls/post_sub_clean.sh` |
 | `custom/wan-start` | `/jffs/scripts/wan-start` |
 | `custom/ip_filter` | `/jffs/ShellCrash/configs/ip_filter` |
+| `custom/tailscale/start.sh` | `/jffs/tailscale/start.sh` |
+| `custom/tailscale/post-mount.sh` | `/jffs/scripts/post-mount`（含 Tailscale 啟動段） |
 | （由訂閱 + post 生成） | `/jffs/ShellCrash/yamls/config.yaml` ↔ runtime `/tmp/ShellCrash/config.yaml` |
+| （不入库） | `/tmp/mnt/sda1/tailscale/bin/*`、`…/state/tailscaled.state` |
 
 ## 訂製說明
 

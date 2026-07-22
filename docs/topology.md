@@ -17,6 +17,15 @@ Router A LAN 192.168.50.1  ← ShellCrash (Mihomo)
              └─ B 側客戶端（例：Mac 192.168.8.242）
 ```
 
+## Tailscale
+
+兩台都在線、同 Tailnet（詳見 `docs/tailscale.md`）：
+
+- A：`100.89.102.104`（USB 安裝）
+- B：`100.101.186.25`（OpenWrt 套件）
+- 未宣告家用 LAN、非 exit node；路由器 `CorpDNS=false`
+- 客戶端若開 MagicDNS，本機 DNS 可能優先 `100.100.100.100`（與路由器設定獨立）
+
 ## 代理關係
 
 - **A**：全域規則代理；mixed-port `7890`（LAN 需 auth，供 B `via-RouterA` socks5 使用）。

@@ -14,10 +14,13 @@
 
 ```
 router-a-asus-merlin/custom/     # A 訂製腳本與規則（上機路徑見該目錄 README）
+router-a-asus-merlin/custom/tailscale/  # A Tailscale 啟動腳本
 router-a-asus-merlin/snippets/   # 從 runtime 擷取的 DNS / hosts 片段
 router-b-gl-mt3000/custom/       # B OpenClash custom overwrite / rules
+router-b-gl-mt3000/custom/tailscale/    # B UCI tailscale
 router-b-gl-mt3000/snippets/     # B runtime DNS / hosts / 規則前綴
 docs/topology.md
+docs/tailscale.md                # Tailnet 節點、prefs、與排查結論
 docs/changelog/                  # 變更紀錄
 ```
 
@@ -27,6 +30,7 @@ docs/changelog/                  # 變更紀錄
 2. **Firstrade**：`DOMAIN-SUFFIX` → `DIRECT`；DNS 僅 `https://1.1.1.1/dns-query`；hosts 釘選主要 CDN IP（備援）
 3. **B `respect-rules`**：需乾淨 `direct-nameserver`（CF DoH），否則 DIRECT 域名會吃到污染解析
 4. **排除 B 二次代理**：已於 2026-07-22 **回溯**（`ip_filter` 清空）；待確認另一台電腦後再處理
+5. **Tailscale**：A/B 同 Tailnet、無 exit／subnet；細節見 `docs/tailscale.md`
 
 ## 還原提示
 

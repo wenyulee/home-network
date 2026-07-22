@@ -10,6 +10,8 @@ Core: OpenClash Meta，API `:9090`
 |------|------|
 | `custom/openclash_custom_overwrite.sh` | `/etc/openclash/custom/openclash_custom_overwrite.sh` |
 | `custom/openclash_custom_rules.list` | `/etc/openclash/custom/openclash_custom_rules.list` |
+| `custom/tailscale/uci-tailscale` | `/etc/config/tailscale` |
+| （不入库） | `/etc/tailscale/tailscaled.state` |
 
 UCI 相關：`enable_custom_clash_rules=1`、`enable_respect_rules=1`、`enable_redirect_dns=1`、`core_type=Meta`
 
