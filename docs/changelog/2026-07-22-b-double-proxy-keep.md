@@ -17,6 +17,8 @@ curl https://www.linkedin.com/  →  TCP 到 fake-ip OK，TLS handshake 超時
 
 含義：Mac→OpenClash 劫持正常；**當前選中的出口／規則**到不了 LinkedIn（節點被攔、超時、或規則把流量丟到錯誤組），不是「缺 ip_filter」。
 
+> **2026-07-22 更新**：公司 Mac 上 LinkedIn 實為 **Zscaler 關不掉**（timeout → `.cn`）；路由器與其他設備 `.com` 正常。**暫搁置**，見 `2026-07-22-linkedin-keep-com.md`。
+
 ### 建議下一步（Router B / 客戶端）
 
 1. OpenClash Dashboard 打開 `linkedin.com` 連接，記下 **Rule + Proxy chain**。
