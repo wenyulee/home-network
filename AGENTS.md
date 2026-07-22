@@ -28,5 +28,5 @@ Committed files contain the placeholder `REDACTED_MIXED_AUTH` (and `secrets.exam
 
 ### On-device troubleshooting notes (from live client symptoms)
 - B-side clients use OpenClash **fake-ip** (`198.18.0.0/16`). Resolving e.g. `www.linkedin.com` → `198.18.x.x` is expected, not DNS pollution.
-- Pattern **TCP connects to fake-ip, then TLS handshake times out** means the path Mac→Clash hijack is fine; the failure is the **selected outbound / proxy chain** (dead node, LinkedIn blocking the exit IP, or A↔B double-proxy). See pending item in `docs/changelog/2026-07-22-firstrade-and-dns.md` about restoring A's `ip_filter` bypass for B WAN `192.168.50.180` / `.174`.
+- Pattern **TCP connects to fake-ip, then TLS handshake times out** means the path Mac→Clash hijack is fine; the failure is the **selected outbound / proxy chain** (dead node, LinkedIn blocking the exit IP, or bad rule group)—not missing `ip_filter`. For B-side `192.168.8.182`, **keep double-proxy** (A `ip_filter` empty); see `docs/changelog/2026-07-22-b-double-proxy-keep.md`.
 - This repo has **no LinkedIn-specific rules**; default subscription GEOIP/rule-set chooses the outbound. Quick client checks: OpenClash Dashboard → inspect Rule/Chains for the connection; try DIRECT vs another node; compare with `curl -x http://127.0.0.1:<mixed-port>`.
