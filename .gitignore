@@ -9,3 +9,4 @@
 .env.*
 secrets.local.*
 !secrets.example
+backups/local-raw/

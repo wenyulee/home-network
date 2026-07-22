@@ -19,6 +19,7 @@ router-a-asus-merlin/snippets/   # 從 runtime 擷取的 DNS / hosts 片段
 router-b-gl-mt3000/custom/       # B OpenClash custom overwrite / rules
 router-b-gl-mt3000/custom/tailscale/    # B UCI tailscale
 router-b-gl-mt3000/snippets/     # B runtime DNS / hosts / 規則前綴
+backups/                         # 帶時間戳整機訂製快照（對比／還原）
 docs/topology.md
 docs/tailscale.md                # Tailnet 節點、prefs、與排查結論
 docs/ops-notes.md                # Dashboard／假節點／郵件／A 運維坑等補遺
@@ -36,5 +37,6 @@ docs/changelog/                  # 變更紀錄
 ## 還原提示
 
 - **不要**把完整訂閱 `config.yaml` / `ssLinks.yaml` 直接覆蓋上機；只套用 `custom/` 內檔案，再重載/重啟代理核心。
-- A：改 `yamls/*` 後優先 `PUT /configs?force=true` 載入 `/jffs/ShellCrash/yamls/config.yaml`；全量 `start.sh restart` 可能用訂閱管線覆寫 runtime。
+- 帶時間戳快照見 `backups/snapshot-*`（含脫敏 runtime 供 diff）；還原步驟見該目錄 `README.md`。
+- A：改 `yamls/*` 後優先 `PUT /configs?force=true` 載入 `/jffs/ShellCrash/yamls/config.yaml`；全量 `start.sh restart` 會重合併 `rules.yaml`。
 - B：改 `custom/*` 後 `/etc/init.d/openclash restart`，由 overwrite 注入 runtime。

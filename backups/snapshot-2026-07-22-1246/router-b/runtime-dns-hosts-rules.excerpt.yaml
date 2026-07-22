@@ -1,0 +1,167 @@
+dns:
+  enable: true
+  ipv6: false
+  default-nameserver:
+  - tcp://223.5.5.5
+  - tls://223.5.5.5
+  - 119.29.29.29
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "*.lan"
+  - "*.localdomain"
+  - "*.example"
+  - "*.invalid"
+  - "*.localhost"
+  - "*.test"
+  - "*.local"
+  - "*.home.arpa"
+  - time.*.com
+  - time.*.gov
+  - time.*.edu.cn
+  - time.*.apple.com
+  - time1.*.com
+  - time2.*.com
+  - time3.*.com
+  - time4.*.com
+  - time5.*.com
+  - time6.*.com
+  - time7.*.com
+  - ntp.*.com
+  - ntp1.*.com
+  - ntp2.*.com
+  - ntp3.*.com
+  - ntp4.*.com
+  - ntp5.*.com
+  - ntp6.*.com
+  - ntp7.*.com
+  - "*.time.edu.cn"
+  - "*.ntp.org.cn"
+  - "+.pool.ntp.org"
+  - time1.cloud.tencent.com
+  - stun.*.*
+  - stun.*.*.*
+  - swscan.apple.com
+  - mesu.apple.com
+  - "*.msftconnecttest.com"
+  - "*.msftncsi.com"
+  - "*.ipv6.microsoft.com"
+  - teredo.*.*.*
+  - teredo.*.*
+  - music.163.com
+  - "*.music.163.com"
+  - "*.126.net"
+  - musicapi.taihe.com
+  - music.taihe.com
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  - "*.kuwo.cn"
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - "*.y.qq.com"
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  - localhost.ptlogin2.qq.com
+  - "*.xiami.com"
+  - "*.music.migu.cn"
+  - music.migu.cn
+  - "+.wotgame.cn"
+  - "+.wggames.cn"
+  - "+.wowsgame.cn"
+  - "+.wargaming.net"
+  - "*.*.*.srv.nintendo.net"
+  - "*.*.stun.playstation.net"
+  - xbox.*.*.microsoft.com
+  - "*.*.xboxlive.com"
+  - speedtest.cros.wr.pvp.net
+  - "+.jjvip8.com"
+  - www.douyu.com
+  - activityapi.huya.com
+  - activityapi.huya.com.w.cdngslb.com
+  - www.bilibili.com
+  - api.bilibili.com
+  - a.w.bilicdn1.com
+  - "+.xiaomi.com"
+  - "+.xiaomi.net"
+  - "+.xiaoaisound.com"
+  - "+.miui.com"
+  - "+.mi.com"
+  - "+.mijia.tech"
+  - rule-set:oc-cn-domain
+  nameserver:
+  - https://doh.pub/dns-query
+  - https://1.1.1.1/dns-query
+  - https://dns.alidns.com/dns-query
+  listen: 0.0.0.0:7874
+  respect-rules: true
+  proxy-server-nameserver:
+  - tcp://223.5.5.5
+  - tls://223.5.5.5
+  - 119.29.29.29
+  use-hosts: true
+  direct-nameserver:
+  - https://1.1.1.1/dns-query
+  - https://doh.pub/dns-query
+  nameserver-policy:
+    "+.firstrade.com":
+    - https://1.1.1.1/dns-query
+    "+.firstrade.net":
+    - https://1.1.1.1/dns-query
+    "+.linkedin.com":
+    - https://1.1.1.1/dns-query
+    "+.licdn.com":
+    - https://1.1.1.1/dns-query
+
+hosts:
+  api3x.firstrade.com: 54.230.70.76
+  streamingx.firstrade.com: 18.65.14.45
+  rec.firstrade.net: 13.226.69.45
+  www.firstrade.com: 76.76.21.61
+  invest.firstrade.com: 54.230.70.83
+  www.linkedin.com: 104.18.41.41
+  linkedin.com: 130.211.32.14
+
+rules_excerpt:
+  - a.w.bilicdn1.com
+    "+.firstrade.com":
+    "+.firstrade.net":
+    "+.linkedin.com":
+    "+.licdn.com":
+- name: gmail-out
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
+- DOMAIN,smtp.gmail.com,gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,142.250.0.0/15)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,142.250.0.0/15)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,173.194.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,173.194.0.0/16)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,209.85.128.0/17)),gmail-out
+- AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,209.85.128.0/17)),gmail-out
+- DOMAIN-SUFFIX,linkedin.com,全球代理
+- DOMAIN-SUFFIX,licdn.com,全球代理
+- DOMAIN-SUFFIX,linkedin.cn,REJECT
+- DOMAIN-SUFFIX,licdn.cn,REJECT
+- DOMAIN-KEYWORD,smtp.mail,DIRECT
+- DOMAIN,smtp.googlemail.com,DIRECT
+- DOMAIN,smtp-relay.gmail.com,DIRECT
+- DOMAIN,smtp.purelymail.com,DIRECT
+- DOMAIN,smtp.mail.me.com,DIRECT
+- "DOMAIN-SUFFIX,rebrickable.com,\U0001F1EA\U0001F1F8 西班牙 01"
+- "DOMAIN,rebrickable.com,\U0001F1EA\U0001F1F8 西班牙 01"
+- "DOMAIN,www.rebrickable.com,\U0001F1EA\U0001F1F8 西班牙 01"
+- GEOIP,LAN,DIRECT
+- GEOIP,CN,DIRECT
+- MATCH,漏网之鱼
+  api3x.firstrade.com: 54.230.70.76
+  streamingx.firstrade.com: 18.65.14.45
+  rec.firstrade.net: 13.226.69.45
+  www.firstrade.com: 76.76.21.61
+  invest.firstrade.com: 54.230.70.83
+  www.linkedin.com: 104.18.41.41
+  linkedin.com: 130.211.32.14

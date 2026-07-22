@@ -1,0 +1,9 @@
+#!/bin/sh
+# Keep system/dnsmasq upstream on domestic DNS (avoid 1.1.1.1/8.8.8.8 pollution for router-local lookups)
+nvram set wan0_dnsenable_x=1
+nvram set wan0_dns1_x=223.5.5.5
+nvram set wan0_dns2_x=119.29.29.29
+nvram set wan0_dns="223.5.5.5 119.29.29.29"
+nvram set wan_dns="223.5.5.5 119.29.29.29"
+printf "server=223.5.5.5\nserver=119.29.29.29\n" > /tmp/resolv.dnsmasq
+printf "nameserver 223.5.5.5\nnameserver 119.29.29.29\n" > /tmp/resolv.conf

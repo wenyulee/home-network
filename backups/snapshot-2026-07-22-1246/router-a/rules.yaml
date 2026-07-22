@@ -1,0 +1,19 @@
+# ShellCrash 自定义规则（启动时自动插入最前）
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
+- DOMAIN-SUFFIX,linkedin.com,全球代理
+- DOMAIN-SUFFIX,licdn.com,全球代理
+- DOMAIN-SUFFIX,linkedin.cn,REJECT
+- DOMAIN-SUFFIX,licdn.cn,REJECT
+- DST-PORT,587,DIRECT
+- DST-PORT,465,DIRECT
+- DOMAIN-SUFFIX,mail.me.com,DIRECT
+- DOMAIN-KEYWORD,smtp.mail,DIRECT
+- DOMAIN,smtp.mail.me.com,DIRECT
+- DOMAIN,smtp.gmail.com,DIRECT
+- DOMAIN,smtp.googlemail.com,DIRECT
+- DOMAIN,smtp-relay.gmail.com,DIRECT
+- DOMAIN,smtp.purelymail.com,DIRECT
+- DOMAIN-SUFFIX,rebrickable.com,🇪🇸 西班牙 01
+- DOMAIN,rebrickable.com,🇪🇸 西班牙 01
+- DOMAIN,www.rebrickable.com,🇪🇸 西班牙 01

@@ -1,0 +1,312 @@
+mixed-port: 7890
+redir-port: 7892
+tproxy-port: 7893
+authentication: ["REDACTED_USER:REDACTED_PASS"]
+allow-lan: true
+mode: Rule
+log-level: info
+ipv6: true
+external-controller: :9999
+external-ui: ui
+external-ui-url: "https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip"
+secret: "REDACTED_SECRET"
+experimental: {ignore-resolve-fail: true, interface-name: en0}
+sniffer: {enable: true, parse-pure-ip: true, skip-domain: [Mijia Cloud], sniff: {http: {ports: [80, 8080-8880], override-destination: true}, tls: {ports: [443, 8443]}, quic: {ports: [443, 8443]}}}
+find-process-mode: "off"
+routing-mark: 7894
+unified-delay: true
+use-system-hosts: true
+hosts:
+  'api3x.firstrade.com': 54.230.70.76
+  'streamingx.firstrade.com': 18.65.14.45
+  'rec.firstrade.net': 13.226.69.45
+  'www.firstrade.com': 76.76.21.61
+  'invest.firstrade.com': 54.230.70.83
+  'www.linkedin.com': 104.18.41.41
+  'linkedin.com': 130.211.32.14
+
+dns:
+  enable: true
+  listen: :1053
+  use-hosts: true
+  ipv6: true
+  default-nameserver: [ 223.5.5.5, 2400:3200::1 ]
+  direct-nameserver: [ 'https://1.1.1.1/dns-query', 'https://doh.pub/dns-query' ]
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.0/8
+  fake-ip-range6: fc00::/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.localdomain'
+    - '*.example'
+    - '*.invalid'
+    - '*.localhost'
+    - '*.test'
+    - '*.local'
+    - '*.home.arpa'
+    - '*.direct'
+    - 'time.*.com'
+    - 'time.*.gov'
+    - 'time.*.edu.cn'
+    - 'time.*.apple.com'
+    - 'time-ios.apple.com'
+    - 'time1.*.com'
+    - 'time2.*.com'
+    - 'time3.*.com'
+    - 'time4.*.com'
+    - 'time5.*.com'
+    - 'time6.*.com'
+    - 'time7.*.com'
+    - 'ntp.*.com'
+    - 'ntp1.*.com'
+    - 'ntp2.*.com'
+    - 'ntp3.*.com'
+    - 'ntp4.*.com'
+    - 'ntp5.*.com'
+    - 'ntp6.*.com'
+    - 'ntp7.*.com'
+    - '*.time.edu.cn'
+    - '*.ntp.org.cn'
+    - '+.pool.ntp.org'
+    - 'time1.cloud.tencent.com'
+    - 'music.163.com'
+    - '*.music.163.com'
+    - '*.126.net'
+    - 'musicapi.taihe.com'
+    - 'music.taihe.com'
+    - 'songsearch.kugou.com'
+    - 'trackercdn.kugou.com'
+    - '*.kuwo.cn'
+    - 'api-jooxtt.sanook.com'
+    - 'api.joox.com'
+    - 'joox.com'
+    - 'y.qq.com'
+    - '*.y.qq.com'
+    - 'streamoc.music.tc.qq.com'
+    - 'mobileoc.music.tc.qq.com'
+    - 'isure.stream.qqmusic.qq.com'
+    - 'dl.stream.qqmusic.qq.com'
+    - 'aqqmusic.tc.qq.com'
+    - 'amobile.music.tc.qq.com'
+    - '*.xiami.com'
+    - '*.music.migu.cn'
+    - 'music.migu.cn'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - 'localhost.ptlogin2.qq.com'
+    - 'localhost.sec.qq.com'
+    - 'localhost.*.weixin.qq.com'
+    - '+.kk-rays.com'
+    - '+.steamcontent.com'
+    - '+.srv.nintendo.net'
+    - '*.n.n.srv.nintendo.net'
+    - '+.cdn.nintendo.net'
+    - 'xbox.*.*.microsoft.com'
+    - '*.*.xboxlive.com'
+    - 'xbox.*.microsoft.com'
+    - 'xnotify.xboxlive.com'
+    - '+.battle.net'
+    - '+.battlenet.com.cn'
+    - '+.wotgame.cn'
+    - '+.wggames.cn'
+    - '+.wowsgame.cn'
+    - '+.wargaming.net'
+    - 'proxy.golang.org'
+    - '+.stun.*.*'
+    - '+.stun.*.*.*'
+    - '+.stun.*.*.*.*'
+    - '+.stun.*.*.*.*.*'
+    - 'heartbeat.belkin.com'
+    - '*.linksys.com'
+    - '*.linksyssmartwifi.com'
+    - '*.router.asus.com'
+    - 'mesu.apple.com'
+    - 'swscan.apple.com'
+    - 'swquery.apple.com'
+    - 'swdownload.apple.com'
+    - 'swcdn.apple.com'
+    - 'swdist.apple.com'
+    - 'lens.l.google.com'
+    - 'na.b.g-tun.com'
+    - '*.square-enix.com'
+    - '*.finalfantasyxiv.com'
+    - '*.ffxiv.com'
+    - '*.ff14.sdo.com'
+    - 'ff.dorado.sdo.com'
+    - '*.mcdn.bilivideo.cn'
+    - '+.media.dssott.com'
+    - 'shark007.net'
+    - 'Mijia Cloud'
+    - '+.market.xiaomi.com'
+    - '+.cmbchina.com'
+    - '+.cmbimg.com'
+    - 'adguardteam.github.io'
+    - 'adrules.top'
+    - 'anti-ad.net'
+    - 'local.adguard.org'
+    - 'static.adtidy.org'
+    - '+.sandai.net'
+    - '+.n0808.com'
+    - '+.3gppnetwork.org'
+    - '+.uu.163.com'
+    - 'ps.res.netease.com'
+    - '+.pub.3gppnetwork.org'
+    - '+.oray.com'
+    - '+.orayimg.com'
+    - '+.gcloudcs.com'
+    - '+.gcloudsdk.com'
+    - '+.dynv6.net'
+    - 'rule-set:REDACTED_PASS'
+  respect-rules: true
+  nameserver-policy: {"rule-set:cn": [ 223.5.5.5, 119.29.29.29 ], "+.firstrade.com": [ 'https://1.1.1.1/dns-query' ], "+.firstrade.net": [ 'https://1.1.1.1/dns-query' ], "+.linkedin.com": [ 'https://1.1.1.1/dns-query' ], "+.licdn.com": [ 'https://1.1.1.1/dns-query' ]}
+  proxy-server-nameserver: [ 223.5.5.5, 2400:3200::1 ]
+  nameserver: [ 'https://1.1.1.1/dns-query', 'https://doh.pub/dns-query' ]
+proxies:
+  # REDACTED: subscription node list omitted from git snapshot
+proxy-groups:
+    - { name: 手动选择, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Proxy.png', type: select, proxies: [自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: YouTube, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/YouTube.png', type: select, proxies: [手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Netflix, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Netflix.png', type: select, proxies: [手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Disney+, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Disney.png', type: select, proxies: [手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: HBO, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/HBO.png', type: select, proxies: [手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: PrimeVideo, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Prime_Video.png', type: select, proxies: [手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Bahamut, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Bahamut.png', type: select, proxies: [手动选择, '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10'] }
+    - { name: Bilibili, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/bilibili.png', type: select, proxies: [DIRECT, 手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: 'ssLinks Emby', icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/emby.png', type: select, proxies: [手动选择, DIRECT, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Ai+, icon: 'https://raw.githubusercontent.com/HotKids/Rules/master/Quantumult/X/Images/Color/ChatGPT.png', type: select, proxies: [手动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Telegram, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Telegram.png', type: select, proxies: [手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Google, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Google_Search.png', type: select, proxies: [手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: 游戏平台+, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Steam.png', type: select, proxies: [DIRECT, 手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Microsoft, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Microsoft.png', type: select, proxies: [DIRECT, 手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: Apple, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Apple.png', type: select, proxies: [DIRECT, 手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: 全球代理, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Global.png', type: select, proxies: [手动选择, 自动选择, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: 漏网之鱼, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Final.png', type: select, proxies: [手动选择, 自动选择, DIRECT, '🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'] }
+    - { name: 自动选择, icon: 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/icon/qure/color/Auto.png', type: url-test, proxies: ['🇯🇵 日本 01', '🇯🇵 日本 02', '🇯🇵 日本 03', '🇯🇵 日本 04', '🇯🇵 日本 05', '🇯🇵 日本 06', '🇯🇵 日本 07', '🇯🇵 日本 08', '🇯🇵 日本 media 01', '🇭🇰 香港 01', '🇭🇰 香港 02', '🇭🇰 香港 03', '🇭🇰 香港 04', '🇭🇰 香港 05', '🇭🇰 香港 06', '🇭🇰 香港 07', '🇭🇰 香港 08', '🇭🇰 香港 09', '🇭🇰 香港 10', '🇭🇰 香港 11', '🇭🇰 香港 12', '🇭🇰 香港 13', '🇭🇰 香港 14', '🇭🇰 香港 15', '🇭🇰 香港 16', '🇭🇰 香港 17', '🇭🇰 香港 18', '🇭🇰 香港 19', '🇭🇰 香港 20', '🇭🇰 香港 01 [obfs]', '🇭🇰 香港 02 [obfs]', '🇨🇳 台湾 01', '🇨🇳 台湾 02', '🇨🇳 台湾 03', '🇨🇳 台湾 04', '🇨🇳 台湾 05', '🇨🇳 台湾 06', '🇨🇳 台湾 07', '🇨🇳 台湾 08', '🇨🇳 台湾 09', '🇨🇳 台湾 10', '🇸🇬 新加坡 01', '🇸🇬 新加坡 02', '🇸🇬 新加坡 03', '🇸🇬 新加坡 04', '🇸🇬 新加坡 05', '🇸🇬 新加坡 06', '🇸🇬 新加坡 07', '🇸🇬 新加坡 08', '🇸🇬 新加坡 09', '🇸🇬 新加坡 10', '🇺🇸 美国 01', '🇺🇸 美国 02', '🇺🇸 美国 03', '🇺🇸 美国 04', '🇺🇸 美国 05', '🇺🇸 美国 06', '🇺🇸 美国 07', '🇺🇸 美国 08', '🇺🇸 美国 09', '🇺🇸 美国 10', '🇰🇷 韩国 01', '🇰🇷 韩国 02', '🇻🇳 越南 01', '🇻🇳 越南 02', '🇹🇭 泰国 01', '🇮🇳 印度 01', '🇵🇭 菲律宾 01', '🇮🇩 印度尼西亚 01', '🇹🇷 土耳其 01', '🇮🇹 意大利 01', '🇫🇷 法国 01', '🇧🇷 巴西 01', '🇦🇪 迪拜 01', '🇩🇪 德国 01', '🇪🇸 西班牙 01', '🇨🇦 加拿大 01', '🇷🇺 俄罗斯 01', '🇸🇪 瑞典 01', '🇦🇷 阿根廷 01', '🇵🇱 波兰 01', '🇳🇱 荷兰 01', '🇬🇧 英国 01', '🇪🇬 埃及 01', '🇭🇺 匈牙利 01', '🇲🇽 墨西哥 01', '🇲🇩 摩尔多瓦 01', '🇨🇴 哥伦比亚 01', '🇦🇺 澳大利亚 01', '🇵🇰 巴基斯坦 01', '🇳🇬 尼日利亚 01'], tolerance: 20, lazy: true, url: 'http://cp.cloudflare.com/generate_204', interval: 300 }
+rules:
+ - DOMAIN-SUFFIX,firstrade.com,DIRECT #自定义规则
+ - DOMAIN-SUFFIX,firstrade.net,DIRECT #自定义规则
+ - DOMAIN-SUFFIX,linkedin.com,全球代理 #自定义规则
+ - DOMAIN-SUFFIX,licdn.com,全球代理 #自定义规则
+ - DOMAIN-SUFFIX,linkedin.cn,REJECT #自定义规则
+ - DOMAIN-SUFFIX,licdn.cn,REJECT #自定义规则
+ - DST-PORT,587,DIRECT #自定义规则
+ - DST-PORT,465,DIRECT #自定义规则
+ - DOMAIN-SUFFIX,mail.me.com,DIRECT #自定义规则
+ - DOMAIN-KEYWORD,smtp.mail,DIRECT #自定义规则
+ - DOMAIN,smtp.mail.me.com,DIRECT #自定义规则
+ - DOMAIN,smtp.gmail.com,DIRECT #自定义规则
+ - DOMAIN,smtp.googlemail.com,DIRECT #自定义规则
+ - DOMAIN,smtp-relay.gmail.com,DIRECT #自定义规则
+ - DOMAIN,smtp.purelymail.com,DIRECT #自定义规则
+ - DOMAIN-SUFFIX,rebrickable.com,🇪🇸 西班牙 01 #自定义规则
+ - DOMAIN,rebrickable.com,🇪🇸 西班牙 01 #自定义规则
+ - DOMAIN,www.rebrickable.com,🇪🇸 西班牙 01 #自定义规则
+ #自定义规则
+ - 'DOMAIN,sub.sslinks.co.in,DIRECT'
+ - 'RULE-SET,Local-LAN,DIRECT'
+ - 'DOMAIN-SUFFIX,v.smtcdns.net,DIRECT'
+ - 'DOMAIN-SUFFIX,snssdk.com,DIRECT'
+ - 'DOMAIN-SUFFIX,playstation.net,DIRECT'
+ - 'DOMAIN-SUFFIX,cnlang.org,DIRECT'
+ - 'DOMAIN-SUFFIX,atlassian.com,DIRECT'
+ - 'DOMAIN-SUFFIX,cnki.net,DIRECT'
+ - 'DOMAIN-SUFFIX,download.parallels.com,DIRECT'
+ - 'DOMAIN-SUFFIX,services.googleapis.cn,全球代理'
+ - 'DOMAIN-SUFFIX,push.apple.com,自动选择'
+ - 'IP-CIDR,17.249.0.0/16,自动选择,no-resolve'
+ - 'IP-CIDR,17.252.0.0/16,自动选择,no-resolve'
+ - 'IP-CIDR,17.57.144.0/22,自动选择,no-resolve'
+ - 'IP-CIDR,17.188.128.0/18,自动选择,no-resolve'
+ - 'IP-CIDR,17.188.20.0/23,自动选择,no-resolve'
+ - 'IP-CIDR6,2403:300::REDACTED_PASS'
+ - 'IP-CIDR6,2620:149::REDACTED_PASS'
+ - 'IP-CIDR6,2a01:b740::REDACTED_PASS'
+ - 'RULE-SET,OpenAI,Ai+'
+ - 'RULE-SET,Claude,Ai+'
+ - 'DOMAIN-SUFFIX,poe.com,Ai+'
+ - 'DOMAIN-SUFFIX,perplexity.ai,Ai+'
+ - 'DOMAIN-SUFFIX,jetbrains.ai,Ai+'
+ - 'RULE-SET,YouTube,YouTube'
+ - 'RULE-SET,Netflix,Netflix'
+ - 'RULE-SET,Disney,Disney+'
+ - 'RULE-SET,HBO,HBO'
+ - 'DOMAIN-SUFFIX,discomax.com,HBO'
+ - 'DOMAIN-SUFFIX,brightline.tv,HBO'
+ - 'RULE-SET,PrimeVideo,PrimeVideo'
+ - 'RULE-SET,Bahamut,Bahamut'
+ - 'RULE-SET,Bilibili,Bilibili'
+ - 'DOMAIN-SUFFIX,998club.xyz,ssLinks Emby'
+ - 'RULE-SET,Telegram,Telegram'
+ - 'RULE-SET,Google,Google'
+ - 'RULE-SET,SteamCN,DIRECT'
+ - 'DOMAIN-SUFFIX,cm.steampowered.com,DIRECT'
+ - 'DOMAIN-SUFFIX,steamserver.net,DIRECT'
+ - 'DOMAIN-SUFFIX,steamcontent.com,DIRECT'
+ - 'RULE-SET,Steam,游戏平台+'
+ - 'RULE-SET,Blizzard,游戏平台+'
+ - 'RULE-SET,EA,游戏平台+'
+ - 'RULE-SET,Epicgames,游戏平台+'
+ - 'RULE-SET,Garena,游戏平台+'
+ - 'RULE-SET,Gog,游戏平台+'
+ - 'RULE-SET,HoYoverse,游戏平台+'
+ - 'RULE-SET,Nintendo,游戏平台+'
+ - 'RULE-SET,OP,游戏平台+'
+ - 'RULE-SET,PlayStation,游戏平台+'
+ - 'RULE-SET,Riot,游戏平台+'
+ - 'RULE-SET,Rockstar,游戏平台+'
+ - 'RULE-SET,Xbox,游戏平台+'
+ - 'RULE-SET,Microsoft,Microsoft'
+ - 'RULE-SET,AppleFirmware,Apple'
+ - 'RULE-SET,AppleDev,Apple'
+ - 'RULE-SET,AppleHardware,Apple'
+ - 'RULE-SET,AppleMedia,Apple'
+ - 'RULE-SET,Apple,Apple'
+ - 'RULE-SET,TikTok,全球代理'
+ - 'RULE-SET,GlobalMedia,全球代理'
+ - 'RULE-SET,PROXY,全球代理'
+ - 'RULE-SET,ProxyGFWlist,全球代理'
+ - 'RULE-SET,Domestic,DIRECT'
+ - 'RULE-SET,CN-IP-ipcidr,DIRECT'
+ - 'GEOIP,LAN,DIRECT'
+ - 'GEOIP,CN,DIRECT'
+ - 'MATCH,漏网之鱼'
+rule-providers:
+    Local-LAN: { type: http, behavior: classical, path: ./providers/rule/Local-LAN.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Special/Local-LAN.yaml, interval: 21600 }
+    YouTube: { type: http, behavior: classical, path: ./providers/rule/YouTube.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/YouTube.yaml, interval: 21600 }
+    Netflix: { type: http, behavior: classical, path: ./providers/rule/Netflix.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/Netflix.yaml, interval: 21600 }
+    Disney: { type: http, behavior: classical, path: ./providers/rule/Disney.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/Disney.yaml, interval: 21600 }
+    HBO: { type: http, behavior: classical, path: ./providers/rule/HBO.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/HBO.yaml, interval: 21600 }
+    PrimeVideo: { type: http, behavior: classical, path: ./providers/rule/AmazonPrimeVideo.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/AmazonPrimeVideo.yaml, interval: 21600 }
+    Bahamut: { type: http, behavior: classical, path: ./providers/rule/Bahamut.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/Bahamut.yaml, interval: 21600 }
+    Bilibili: { type: http, behavior: classical, path: ./providers/rule/BiliBiliHMT.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/BiliBiliHMT.yaml, interval: 21600 }
+    TikTok: { type: http, behavior: classical, path: ./providers/rule/TikTok.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Global-Services/TikTok.yaml, interval: 21600 }
+    GlobalMedia: { type: http, behavior: classical, path: ./providers/rule/GlobalMedia.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/GlobalMedia.yaml, interval: 21600 }
+    OpenAI: { type: http, behavior: classical, path: ./providers/rule/OpenAI.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/PROXY/OpenAI.yaml, interval: 21600 }
+    Claude: { type: http, behavior: classical, path: ./providers/rule/Claude.yaml, url: https://douyin.sslinks.co.in/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/Claude.yaml, interval: 21600 }
+    Telegram: { type: http, behavior: classical, path: ./providers/rule/Telegram.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/PROXY/Telegram.yaml, interval: 21600 }
+    Google: { type: http, behavior: classical, path: ./providers/rule/Google.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/PROXY/Google.yaml, interval: 21600 }
+    SteamCN: { type: http, behavior: classical, path: ./providers/rule/Games/SteamCN.yaml, url: https://douyin.sslinks.co.in/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/SteamCN.yaml, interval: 21600 }
+    Steam: { type: http, behavior: classical, path: ./providers/rule/Games/Steam.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Steam.yaml, interval: 21600 }
+    Blizzard: { type: http, behavior: classical, path: ./providers/rule/Games/Blizzard.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Blizzard.yaml, interval: 21600 }
+    EA: { type: http, behavior: classical, path: ./providers/rule/Games/EA.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/EA.yaml, interval: 21600 }
+    Epicgames: { type: http, behavior: classical, path: ./providers/rule/Games/Epicgames.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Epicgames.yaml, interval: 21600 }
+    Garena: { type: http, behavior: classical, path: ./providers/rule/Games/Garena.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Garena.yaml, interval: 21600 }
+    Gog: { type: http, behavior: classical, path: ./providers/rule/Games/Gog.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Gog.yaml, interval: 21600 }
+    HoYoverse: { type: http, behavior: classical, path: ./providers/rule/Games/HoYoverse.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/HoYoverse.yaml, interval: 21600 }
+    Nintendo: { type: http, behavior: classical, path: ./providers/rule/Games/Nintendo.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Nintendo.yaml, interval: 21600 }
+    OP: { type: http, behavior: classical, path: ./providers/rule/Games/OP.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/OP.yaml, interval: 21600 }
+    PlayStation: { type: http, behavior: classical, path: ./providers/rule/Games/PlayStation.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/PlayStation.yaml, interval: 21600 }
+    Riot: { type: http, behavior: classical, path: ./providers/rule/Games/Riot.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Riot.yaml, interval: 21600 }
+    Rockstar: { type: http, behavior: classical, path: ./providers/rule/Games/Rockstar.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Rockstar.yaml, interval: 21600 }
+    Xbox: { type: http, behavior: classical, path: ./providers/rule/Games/Xbox.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Game/Xbox.yaml, interval: 21600 }
+    Microsoft: { type: http, behavior: classical, path: ./providers/rule/Microsoft.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Microsoft.yaml, interval: 21600 }
+    Apple: { type: http, behavior: classical, path: ./providers/rule/Apple.yaml, url: https://douyin.sslinks.co.in/ACL4SSR/ACL4SSR/master/Clash/Providers/Ruleset/Apple.yaml, interval: 21600 }
+    AppleFirmware: { type: http, behavior: classical, path: ./providers/rule/AppleFirmware.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Apple/AppleFirmware.yaml, interval: 21600 }
+    AppleDev: { type: http, behavior: classical, path: ./providers/rule/AppleDev.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Apple/AppleDev.yaml, interval: 21600 }
+    AppleHardware: { type: http, behavior: classical, path: ./providers/rule/AppleHardware.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Apple/AppleHardware.yaml, interval: 21600 }
+    AppleMedia: { type: http, behavior: classical, path: ./providers/rule/AppleMedia.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Apple/AppleMedia.yaml, interval: 21600 }
+    PROXY: { type: http, behavior: classical, path: ./providers/rule/Proxy.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/PROXY.yaml, interval: 21600 }
+    ProxyGFWlist: { type: http, behavior: classical, path: ./providers/rule/ProxyGFWlist.yaml, url: https://douyin.sslinks.co.in/ACL4SSR/ACL4SSR/master/Clash/Providers/ProxyGFWlist.yaml, interval: 21600 }
+    Domestic: { type: http, behavior: classical, path: ./providers/rule/Domestic.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/Domestic.yaml, interval: 21600 }
+    CN-IP-ipcidr: { type: http, behavior: ipcidr, path: ./providers/rule/CN-IP-ipcidr.yaml, url: https://douyin.sslinks.co.in/LM-Firefly/Rules/master/Clash-RuleSet-Classical/CN-IP-ipcidr.yaml, interval: 21600 }
+    cn: {type: http, behavior: domain, format: mrs, path: ./ruleset/cn.mrs, url: https://testingcf.jsdelivr.net/gh/juewuy/ShellCrash@update/bin/geodata/mrs_geosite_cn.mrs}
