@@ -39,3 +39,7 @@
 ## Tailscale 現況快照
 
 - 見 `docs/tailscale.md`：兩台在線、無 subnet / exit、路由器 CorpDNS=false
+
+## 運維補遺
+
+- Dashboard port、假節點、郵件／Rebrickable、A dnsmasq／reload／USB 等：見 `docs/ops-notes.md`

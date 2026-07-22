@@ -21,6 +21,7 @@ router-b-gl-mt3000/custom/tailscale/    # B UCI tailscale
 router-b-gl-mt3000/snippets/     # B runtime DNS / hosts / 規則前綴
 docs/topology.md
 docs/tailscale.md                # Tailnet 節點、prefs、與排查結論
+docs/ops-notes.md                # Dashboard／假節點／郵件／A 運維坑等補遺
 docs/changelog/                  # 變更紀錄
 ```
 
