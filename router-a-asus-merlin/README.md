@@ -8,7 +8,7 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 | Repo | 裝置 |
 |------|------|
 | `custom/rules.yaml` | `/jffs/ShellCrash/yamls/rules.yaml` |
-| `custom/dnsmasq.conf.add` | `/jffs/configs/dnsmasq.conf.add`（Firstrade IP 钉选，防系统 DNS 污染） |
+| `custom/dnsmasq.conf.add` | `/jffs/configs/dnsmasq.conf.add`（`filter-AAAA` + Firstrade IP 钉选） |
 | `custom/user.yaml` | `/jffs/ShellCrash/yamls/user.yaml`（DNS/hosts 覆盖，防 restart 回退） |
 | `custom/ShellCrash.cfg.dns-snippet` | 写入 `/jffs/ShellCrash/configs/ShellCrash.cfg` 的 `dns_*` / `multiport` 项 |
 | `custom/fulltcp_by_mac.sh` | `/jffs/ShellCrash/scripts/fulltcp_by_mac.sh` |

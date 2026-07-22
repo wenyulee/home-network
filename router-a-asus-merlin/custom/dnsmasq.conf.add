@@ -1,3 +1,6 @@
+# LAN: strip AAAA (router ipv6_service already disabled; stop Happy Eyeballs on polluted/useless AAAA)
+filter-AAAA
+
 # Firstrade: pin clean IPv4; local= stops upstream AAAA pollution (was 2001::...)
 local=/firstrade.com/
 local=/firstrade.net/
