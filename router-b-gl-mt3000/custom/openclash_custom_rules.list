@@ -1,13 +1,11 @@
 rules:
-## Firstrade: stable home IP + clean DoH
-- DOMAIN-SUFFIX,firstrade.com,DIRECT
-- DOMAIN-SUFFIX,firstrade.net,DIRECT
+## LinkedIn: stay on .com (DNS/hosts still in overwrite.sh)
 - DOMAIN-SUFFIX,linkedin.com,全球代理
 - DOMAIN-SUFFIX,licdn.com,全球代理
 - DOMAIN-SUFFIX,linkedin.cn,REJECT
 - DOMAIN-SUFFIX,licdn.cn,REJECT
 ## Mail SMTP + Rebrickable (managed)
-## smtp.gmail.com -> gmail-out (via-RouterA fallback DIRECT) injected in overwrite.sh
+## Firstrade DIRECT + smtp.gmail.com -> gmail-out injected in overwrite.sh
 - DOMAIN-SUFFIX,mail.me.com,DIRECT
 - DOMAIN-KEYWORD,smtp.mail,DIRECT
 - DOMAIN,smtp.googlemail.com,DIRECT

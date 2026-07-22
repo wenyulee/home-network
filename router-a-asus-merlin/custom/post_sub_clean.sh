@@ -118,6 +118,13 @@ awk '
 
 say "Firstrade clean-DoH + hosts pin applied"
 
+# 2c. Drop subscription-baked Firstrade DOMAIN rules (canonical: yamls/rules.yaml)
+awk '
+  /Firstrade managed/ { next }
+  { print }
+' "$SRC" > /tmp/sslinks-dedupe.$$ && mv -f /tmp/sslinks-dedupe.$$ "$SRC"
+say "Stripped duplicate #Firstrade managed rules (use rules.yaml)"
+
 # 3. Full validation with the core itself (same check ShellCrash uses at startup)
 if ! core_test "$SRC"; then
 	say "订阅内核校验(-t)失败"
