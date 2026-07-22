@@ -66,4 +66,4 @@ B 本來就沒把 `direct-nameserver` 指回這條污染鏈，所以沒表現出
 - ~~是否恢復 A 對 B WAN（`.180` / `.174`）的二次代理排除~~ → **否**（`192.168.8.182` 需雙層代理；見 `docs/changelog/2026-07-22-b-double-proxy-keep.md`）
 - hosts CDN 是否做定期刷新  
 - 訂閱定時更新 `-t` 失敗 → 還原 bak 是否長期穩定  
-- LinkedIn 等少數站：查 B 出口／規則，勿關二次代理  
+- LinkedIn：路由器代理开 `.com` 正常；**仅公司 Mac** 因 Zscaler 关不掉而挂（timeout → `.cn`）→ **暂搁置**，见 `docs/changelog/2026-07-22-linkedin-keep-com.md`  
