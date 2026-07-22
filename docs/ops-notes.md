@@ -46,15 +46,14 @@ B 本來就沒把 `direct-nameserver` 指回這條污染鏈，所以沒表現出
 ## Router A 運維坑
 
 1. **dnsmasq 上游**以 `/tmp/resolv.dnsmasq` 為準（常配合 `no-resolv`）；只改 `resolv.conf`／nvram 不夠時查這個檔。持久化靠 `wan-start`（國內 `223.5.5.5` / `119.29.29.29`）。
-2. **改完 yamls 優先 API reload**  
-   `PUT /configs?force=true`，path 用 `/jffs/ShellCrash/yamls/config.yaml`。  
-   `start.sh restart` 可能重建 runtime，短暫丟掉手動 DNS／hosts（Firstrade 回滾二次代理後曾中過）。
-3. **USB `sda1`**  
+2. **Clash DNS 勿只靠 API reload**：`start.sh restart` 會用 `clash_modify.sh` 重拼配置；未設 `dns_nameserver` 且本機有 dnsmasq 時會把 `direct-nameserver` 寫成 `127.0.0.1`。持久化用 **`yamls/user.yaml`（含 `dns:`）+ `ShellCrash.cfg` 的 `dns_nameserver`**，見 `docs/changelog/2026-07-22-a-dns-persist.md`。
+3. **改完 yamls 優先 API reload** 可立刻生效，但仍須有上面的 user.yaml／cfg，否則下次重啟又退回。
+4. **USB `sda1`**  
    - Tailscale binary + state  
    - `shellcrash-usb-offload`（post-mount）  
    - `post_sub` 可選備份目錄 `/tmp/mnt/sda1/shellcrash-backup`  
    拔盤或掛載失敗會影響上述服務。
-4. **LAN mixed-port auth**  
+5. **LAN mixed-port auth**  
    B 的 `via-RouterA` socks5 依賴 A `7890` 帳密；腳本裡 repo 為 `REDACTED_*`，上機需與真值一致。
 
 ## Firstrade DIRECT 取捨（摘要）

@@ -1,0 +1,33 @@
+use-system-hosts: true
+hosts:
+  'api3x.firstrade.com': 54.230.70.76
+  'streamingx.firstrade.com': 18.65.14.45
+  'rec.firstrade.net': 13.226.69.45
+  'www.firstrade.com': 76.76.21.61
+  'invest.firstrade.com': 54.230.70.83
+
+dns:
+  enable: true
+  listen: :1053
+  use-hosts: true
+  ipv6: true
+  default-nameserver: [ 223.5.5.5, 2400:3200::1 ]
+  direct-nameserver: [ 'https://1.1.1.1/dns-query', 'https://doh.pub/dns-query' ]
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.0/8
+  fake-ip-range6: fc00::/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.localdomain'
+    - '*.example'
+    - '*.invalid'
+    - '*.localhost'
+    - '*.test'
+    - '*.local'
+    - '*.home.arpa'
+    # ... truncated; on-device file includes full fake_ip_filter.list ...
+    - 'rule-set:cn'
+  respect-rules: true
+  nameserver-policy: {"rule-set:cn": [ 223.5.5.5, 119.29.29.29 ], "+.firstrade.com": [ 'https://1.1.1.1/dns-query' ], "+.firstrade.net": [ 'https://1.1.1.1/dns-query' ]}
+  proxy-server-nameserver: [ 223.5.5.5, 2400:3200::1 ]
+  nameserver: [ 'https://1.1.1.1/dns-query', 'https://doh.pub/dns-query' ]
