@@ -1,0 +1,4 @@
+/jffs/ShellCrash/task/task.sh 107 服务启动后自动同步ntp时间
+
+# full TCP intercept for selected MACs (Zscaler-like ports)
+/jffs/ShellCrash/scripts/fulltcp_by_mac.sh

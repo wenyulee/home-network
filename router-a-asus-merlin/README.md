@@ -10,6 +10,9 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 | `custom/rules.yaml` | `/jffs/ShellCrash/yamls/rules.yaml` |
 | `custom/user.yaml` | `/jffs/ShellCrash/yamls/user.yaml`（DNS/hosts 覆盖，防 restart 回退） |
 | `custom/ShellCrash.cfg.dns-snippet` | 写入 `/jffs/ShellCrash/configs/ShellCrash.cfg` 的 `dns_*` 项 |
+| `custom/fulltcp_by_mac.sh` | `/jffs/ShellCrash/scripts/fulltcp_by_mac.sh` |
+| `custom/fulltcp_mac.list` | `/jffs/ShellCrash/configs/fulltcp_mac.list` |
+| `custom/task-afstart` | `/jffs/ShellCrash/task/afstart`（含 fulltcp 调用） |
 | `custom/post_sub_clean.sh` | `/jffs/ShellCrash/yamls/post_sub_clean.sh` |
 | `custom/wan-start` | `/jffs/scripts/wan-start` |
 | `custom/ip_filter` | `/jffs/ShellCrash/configs/ip_filter` |
