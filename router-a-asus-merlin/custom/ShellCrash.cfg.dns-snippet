@@ -2,3 +2,5 @@ dns_mod=mix
 dns_nameserver='223.5.5.5, 119.29.29.29'
 dns_fallback='https://1.1.1.1/dns-query, https://doh.pub/dns-query'
 dns_resolver='223.5.5.5, 2400:3200::1'
+common_ports=ON
+multiport='22,80,443,8080,8443,10301'

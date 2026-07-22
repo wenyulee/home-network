@@ -9,7 +9,7 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 |------|------|
 | `custom/rules.yaml` | `/jffs/ShellCrash/yamls/rules.yaml` |
 | `custom/user.yaml` | `/jffs/ShellCrash/yamls/user.yaml`（DNS/hosts 覆盖，防 restart 回退） |
-| `custom/ShellCrash.cfg.dns-snippet` | 写入 `/jffs/ShellCrash/configs/ShellCrash.cfg` 的 `dns_*` 项 |
+| `custom/ShellCrash.cfg.dns-snippet` | 写入 `/jffs/ShellCrash/configs/ShellCrash.cfg` 的 `dns_*` / `multiport` 项 |
 | `custom/fulltcp_by_mac.sh` | `/jffs/ShellCrash/scripts/fulltcp_by_mac.sh` |
 | `custom/fulltcp_mac.list` | `/jffs/ShellCrash/configs/fulltcp_mac.list` |
 | `custom/task-afstart` | `/jffs/ShellCrash/task/afstart`（含 fulltcp 调用） |
@@ -25,6 +25,7 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 
 - **`user.yaml`**：ShellCrash 官方合并覆盖。含 `dns:` / `hosts:` 时，启动**不会**再生成把 `direct-nameserver` 指到 `127.0.0.1` 的默认 DNS 块。见 `docs/changelog/2026-07-22-a-dns-persist.md`。
 - **`ShellCrash.cfg` `dns_nameserver=…`**：显式国内 DNS，避免 `get_config.sh` 因本机 dnsmasq 自动改成 `127.0.0.1`。
+- **`ShellCrash.cfg` `multiport=…`**：常用埠過濾含 `10301`（Zscaler），全網生效；指定 Mac 另有 `fulltcp_mac.list` 全 TCP。
 - **`rules.yaml`**：啟動時插到規則最前。含 Firstrade DIRECT、SMTP DIRECT、Rebrickable 西班牙節點。
 - **`post_sub_clean.sh`**：訂閱下載後：體積/結構檢查、剝假節點、LAN auth、DNS harden、Firstrade hosts pin、`-t` 校驗、備份。
 - **`wan-start`**：WAN 起來時強制系統 DNS 為阿里/DNSPod。

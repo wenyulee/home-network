@@ -37,6 +37,11 @@ PREROUTING -p tcp → shellcrash_fulltcp_mac
 - 若机子仍在 **B 后面**，A 上源 MAC 是 B 的 WAN，此规则**无效**；此时全 TCP 劫持本来就在 B 上完成。  
 - 要在 A 上复现「打断企业 VPN」：请把该 Mac **改连 A 的 Wi‑Fi**，再测 `10301` 是否进 ShellCrash。
 
+## 补充（同日）
+
+全网 multiport 另加 `10301`：`ShellCrash.cfg` → `multiport='22,80,443,8080,8443,10301'`（`common_ports=ON`）。  
+与 MAC 全 TCP 并存：`10301` 挡全网 Zscaler；MAC 列表仍覆盖该机其他非常用埠。
+
 ## 合规
 
 此举会干扰企业 VPN／proxy，仅按用户要求配置；使用须自担合规风险。
