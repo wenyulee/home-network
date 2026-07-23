@@ -1,4 +1,6 @@
 # ShellCrash 自定义规则（启动时自动插入最前）
+# Zscaler force proxy
+- IP-CIDR,165.225.116.23/32,手动选择,no-resolve
 # Firstrade: CloudFront 主机走代理（ISP DIRECT 差）；官网 www 等走 DIRECT（家用 IP）
 - DOMAIN,api3x.firstrade.com,手动选择
 - DOMAIN,streamingx.firstrade.com,手动选择
