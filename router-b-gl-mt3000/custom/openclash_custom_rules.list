@@ -6,9 +6,12 @@ rules:
 - DOMAIN-SUFFIX,licdn.cn,REJECT
 ## Apple TV+ / Music / News only (same idea as Netflix/Disney+); rest of Apple stays DIRECT
 - RULE-SET,AppleMedia,手动选择
-## Firstrade via proxy (CloudFront HKG bad on DIRECT); smtp.gmail.com -> gmail-out in overwrite.sh
-- DOMAIN-SUFFIX,firstrade.com,手动选择
-- DOMAIN-SUFFIX,firstrade.net,手动选择
+## Firstrade: CF App hosts → proxy; rest DIRECT (home IP). smtp.gmail → overwrite gmail-out
+- DOMAIN,api3x.firstrade.com,手动选择
+- DOMAIN,streamingx.firstrade.com,手动选择
+- DOMAIN,invest.firstrade.com,手动选择
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
 ## Mail SMTP + Rebrickable (managed)
 - DOMAIN-SUFFIX,mail.me.com,DIRECT
 - DOMAIN-KEYWORD,smtp.mail,DIRECT

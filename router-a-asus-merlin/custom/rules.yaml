@@ -1,7 +1,10 @@
 # ShellCrash 自定义规则（启动时自动插入最前）
-# Firstrade via proxy — ISP DIRECT to CloudFront HKG is lossy/slow; App issues → revert DIRECT
-- DOMAIN-SUFFIX,firstrade.com,手动选择
-- DOMAIN-SUFFIX,firstrade.net,手动选择
+# Firstrade: CloudFront 主机走代理（ISP DIRECT 差）；官网 www 等走 DIRECT（家用 IP）
+- DOMAIN,api3x.firstrade.com,手动选择
+- DOMAIN,streamingx.firstrade.com,手动选择
+- DOMAIN,invest.firstrade.com,手动选择
+- DOMAIN-SUFFIX,firstrade.com,DIRECT
+- DOMAIN-SUFFIX,firstrade.net,DIRECT
 # Apple TV+ / Music / News only — not whole Apple/iCloud (keep those DIRECT via Apple group)
 - RULE-SET,AppleMedia,手动选择
 - DOMAIN-SUFFIX,linkedin.com,全球代理

@@ -1,0 +1,4 @@
+#任务ID#任务命令#任务说明
+# 104: panel/menu「更新订阅」必须走清洗（与每日 04:00 的 204 同一脚本）
+104#$CRASHDIR/task/update_sub_clean.sh#更新订阅并清理假节点后重启
+204#$CRASHDIR/task/update_sub_clean.sh#更新订阅并清理假节点后重启

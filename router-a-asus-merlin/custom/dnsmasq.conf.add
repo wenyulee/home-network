@@ -1,11 +1,26 @@
 # LAN: strip AAAA (router ipv6_service already disabled; stop Happy Eyeballs on polluted/useless AAAA)
 filter-AAAA
 
-# Firstrade: pin clean IPv4; local= stops upstream AAAA pollution (was 2001::...)
+# Firstrade: pin clean IPv4; local= stops upstream AAAA pollution
+# IPs calibrated 2026-07-23 via 1.1.1.1 DoH (CF/Vercel may rotate — recheck if App breaks)
 local=/firstrade.com/
 local=/firstrade.net/
-address=/www.firstrade.com/76.76.21.61
+address=/www.firstrade.com/76.76.21.93
 address=/api3x.firstrade.com/54.230.70.76
 address=/invest.firstrade.com/54.230.70.83
 address=/streamingx.firstrade.com/18.65.14.45
 address=/rec.firstrade.net/13.226.69.45
+
+# Foreign domains often poisoned by domestic upstream — force clean resolvers
+# (Clash Fake-IP covers most LAN traffic; this helps leaks / router-local lookups)
+server=/google.com/1.1.1.1
+server=/google.com/8.8.8.8
+server=/googleapis.com/1.1.1.1
+server=/gstatic.com/1.1.1.1
+server=/youtube.com/1.1.1.1
+server=/googlevideo.com/1.1.1.1
+server=/github.com/1.1.1.1
+server=/githubusercontent.com/1.1.1.1
+server=/cloudflare.com/1.1.1.1
+server=/linkedin.com/1.1.1.1
+server=/licdn.com/1.1.1.1

@@ -55,7 +55,7 @@ begin
   d["hosts"]["api3x.firstrade.com"] = "54.230.70.76"
   d["hosts"]["streamingx.firstrade.com"] = "18.65.14.45"
   d["hosts"]["rec.firstrade.net"] = "13.226.69.45"
-  d["hosts"]["www.firstrade.com"] = "76.76.21.61"
+  d["hosts"]["www.firstrade.com"] = "76.76.21.93"
   d["hosts"]["invest.firstrade.com"] = "54.230.70.83"
   d["hosts"]["www.linkedin.com"] = "104.18.41.41"
   d["hosts"]["linkedin.com"] = "130.211.32.14"
@@ -63,13 +63,11 @@ begin
   d["rules"] ||= []
   d["rules"].reject! { |r|
     s = r.to_s
-    s.include?("smtp.gmail.com") || s.include?("firstrade.com") || s.include?("firstrade.net") || (s.include?("gmail-out") && s.include?("IP-CIDR"))
+    # Only strip Gmail SMTP bits we re-inject below; keep custom_rules Firstrade/AppleMedia
+    s.include?("smtp.gmail.com") || (s.include?("gmail-out") && s.include?("IP-CIDR"))
   }
-  # Firstrade (proxy) + Gmail SMTP live here; LinkedIn / other mail / Rebrickable → openclash_custom_rules.list
+  # Gmail SMTP only here; Firstrade + AppleMedia live in openclash_custom_rules.list
   [
-    "DOMAIN-SUFFIX,firstrade.com,手动选择",
-    "DOMAIN-SUFFIX,firstrade.net,手动选择",
-    "RULE-SET,AppleMedia,手动选择",
     "DOMAIN,smtp.gmail.com,gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out",

@@ -13,6 +13,10 @@ LOG=/tmp/ShellCrash/ShellCrash.log
 MIN_BYTES="${MIN_BYTES:-50000}"
 say() { echo "$(date "+%Y-%m-%d_%H:%M:%S")~$1" >>"$LOG"; echo "post_sub_clean: $1" >&2; }
 
+# Mixed-port LAN auth — always from ShellCrash.cfg (never hardcode / REDACTED in script)
+AUTH=$(grep "^authentication=" /jffs/ShellCrash/configs/ShellCrash.cfg 2>/dev/null | sed "s/^authentication=//;s/^'//;s/'$//")
+[ -n "$AUTH" ] || AUTH="routerb:REDACTED_MIXED_AUTH"
+
 [ -s "$SRC" ] || exit 0
 
 core_test() { "$CORE" -t -d /jffs/ShellCrash -f "$1" >/dev/null 2>&1; }
@@ -52,7 +56,7 @@ fi
 #    drop whole proxy-group lines that merely *reference* those names), then
 #    scrub leftover references from group proxy lists; force allow-lan + auth.
 TMP=/tmp/sslinks-clean.$$
-awk -v auth='routerb:REDACTED_MIXED_AUTH' '
+awk -v auth="$AUTH" '
   /name: '\''Expire:|name: '\''Traffic:|name: '\''Sync:/ { next }
   /^authentication:/ { next }
   /^allow-lan:/ { print "allow-lan: true"; next }
@@ -68,7 +72,7 @@ sed -i \
 
 if ! grep -q "^authentication:" "$SRC"; then
 	TMP=/tmp/sslinks-auth.$$
-	awk -v auth='routerb:REDACTED_MIXED_AUTH' '
+	awk -v auth="$AUTH" '
 	  BEGIN{done=0}
 	  /^mixed-port:/ && !done {
 	    print
@@ -115,7 +119,7 @@ awk '
     print "  '\''api3x.firstrade.com'\'': 54.230.70.76"
     print "  '\''streamingx.firstrade.com'\'': 18.65.14.45"
     print "  '\''rec.firstrade.net'\'': 13.226.69.45"
-    print "  '\''www.firstrade.com'\'': 76.76.21.61"
+    print "  '\''www.firstrade.com'\'': 76.76.21.93"
     print "  '\''invest.firstrade.com'\'': 54.230.70.83"
     print "  '\''www.linkedin.com'\'': 104.18.41.41"
     print "  '\''linkedin.com'\'': 130.211.32.14"

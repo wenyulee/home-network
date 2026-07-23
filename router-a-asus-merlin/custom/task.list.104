@@ -1,0 +1,3 @@
+# 部署时覆盖 /jffs/ShellCrash/task/task.list 中的 104 行（或整文件若你维护副本）。
+# 原因：task.sh 先读 task.list 再读 task.user，grep 命中第一行；仅改 task.user 不够。
+104#$CRASHDIR/task/update_sub_clean.sh#更新订阅并清理假节点后重启
