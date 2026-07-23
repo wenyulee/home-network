@@ -48,15 +48,23 @@ if [ "$GROUP_LINES" -lt 5 ]; then
 	restore_bak || exit 1
 fi
 
-# 2. Clean: strip provider fake nodes, force allow-lan + authentication (idempotent)
+# 2. Clean: strip provider fake nodes (Expire/Traffic/Sync info rows ONLY — do not
+#    drop whole proxy-group lines that merely *reference* those names), then
+#    scrub leftover references from group proxy lists; force allow-lan + auth.
 TMP=/tmp/sslinks-clean.$$
 awk -v auth='routerb:REDACTED_MIXED_AUTH' '
-  /Expire:|Traffic:|Sync:/ { next }
+  /name: '\''Expire:|name: '\''Traffic:|name: '\''Sync:/ { next }
   /^authentication:/ { next }
   /^allow-lan:/ { print "allow-lan: true"; next }
   { print }
   /^bind-address:/ { print "authentication: [\x27" auth "\x27]" }
 ' "$SRC" > "$TMP" && mv -f "$TMP" "$SRC"
+# Remove dangling fake names from proxy-groups lists (otherwise -t fails)
+sed -i \
+  -e "s/'Expire: [^']*', *//g" \
+  -e "s/'Traffic: [^']*', *//g" \
+  -e "s/'Sync: [^']*', *//g" \
+  "$SRC"
 
 if ! grep -q "^authentication:" "$SRC"; then
 	TMP=/tmp/sslinks-auth.$$
