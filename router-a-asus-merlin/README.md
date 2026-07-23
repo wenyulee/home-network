@@ -27,7 +27,7 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 - **`user.yaml`**：ShellCrash 官方合并覆盖。含 `dns:` / `hosts:` 时，启动**不会**再生成把 `direct-nameserver` 指到 `127.0.0.1` 的默认 DNS 块。见 `docs/changelog/2026-07-22-a-dns-persist.md`。
 - **`ShellCrash.cfg` `dns_nameserver=…`**：显式国内 DNS，避免 `get_config.sh` 因本机 dnsmasq 自动改成 `127.0.0.1`。
 - **`ShellCrash.cfg` `multiport=…`**：常用埠過濾含 `10301`（Zscaler），全網生效；指定 Mac 另有 `fulltcp_mac.list` 全 TCP。
-- **`rules.yaml`**：啟動時插到規則最前。含 Firstrade DIRECT、SMTP DIRECT、Rebrickable 西班牙節點。
+- **`rules.yaml`**：啟動時插到規則最前。含 Firstrade→手动选择、SMTP DIRECT、Rebrickable 西班牙、AppleMedia→手动选择。
 - **`post_sub_clean.sh`**：訂閱下載後：體積/結構檢查、剝假節點、LAN auth、DNS harden、Firstrade hosts pin、`-t` 校驗、備份。
 - **`wan-start`**：WAN 起來時強制系統 DNS 為阿里/DNSPod。
 - **`ip_filter`**：ShellCrash LAN IP 過濾（黑名單 → 源 IP `RETURN`）。**保持清空**：不排除 B WAN；B 側 `192.168.8.182` 依賴雙層代理才能上大部分網站。

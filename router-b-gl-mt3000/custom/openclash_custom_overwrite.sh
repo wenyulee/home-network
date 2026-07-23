@@ -65,10 +65,10 @@ begin
     s = r.to_s
     s.include?("smtp.gmail.com") || s.include?("firstrade.com") || s.include?("firstrade.net") || (s.include?("gmail-out") && s.include?("IP-CIDR"))
   }
-  # Firstrade + Gmail SMTP live here; LinkedIn / other mail / Rebrickable → openclash_custom_rules.list
+  # Firstrade (proxy) + Gmail SMTP live here; LinkedIn / other mail / Rebrickable → openclash_custom_rules.list
   [
-    "DOMAIN-SUFFIX,firstrade.com,DIRECT",
-    "DOMAIN-SUFFIX,firstrade.net,DIRECT",
+    "DOMAIN-SUFFIX,firstrade.com,手动选择",
+    "DOMAIN-SUFFIX,firstrade.net,手动选择",
     "RULE-SET,AppleMedia,手动选择",
     "DOMAIN,smtp.gmail.com,gmail-out",
     "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out",
