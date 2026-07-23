@@ -1,6 +1,13 @@
 rules:
-## Zscaler force proxy
-- IP-CIDR,165.225.116.23/32,手动选择,no-resolve
+## Zscaler: official IP ranges + domains → proxy
+- RULE-SET,Zscaler,手动选择,no-resolve
+- DOMAIN-SUFFIX,zscaler.com,手动选择
+- DOMAIN-SUFFIX,zscaler.net,手动选择
+- DOMAIN-SUFFIX,zscloud.net,手动选择
+- DOMAIN-SUFFIX,zscalerthree.net,手动选择
+- DOMAIN-SUFFIX,zscalerone.net,手动选择
+- DOMAIN-SUFFIX,zscalertwo.net,手动选择
+- DOMAIN-SUFFIX,zpath.net,手动选择
 ## LinkedIn: stay on .com (DNS/hosts still in overwrite.sh)
 - DOMAIN-SUFFIX,linkedin.com,全球代理
 - DOMAIN-SUFFIX,licdn.com,全球代理

@@ -137,6 +137,20 @@ awk '
 ' "$SRC" > /tmp/sslinks-dedupe.$$ && mv -f /tmp/sslinks-dedupe.$$ "$SRC"
 say "Stripped duplicate #Firstrade managed rules (use rules.yaml)"
 
+# 2d. Inject Zscaler ipcidr rule-provider (file); do NOT use others.yaml (duplicate key)
+if [ -s /jffs/ShellCrash/ruleset/Zscaler.yaml ]; then
+	awk '
+	  /Zscaler:[[:space:]]*\{/ { next }
+	  /^rule-providers:/ {
+	    print
+	    print "    Zscaler: { type: file, behavior: ipcidr, path: ./ruleset/Zscaler.yaml }"
+	    next
+	  }
+	  { print }
+	' "$SRC" > /tmp/sslinks-zscaler.$$ && mv -f /tmp/sslinks-zscaler.$$ "$SRC"
+	say "Zscaler rule-provider injected"
+fi
+
 # 3. Full validation with the core itself (same check ShellCrash uses at startup)
 if ! core_test "$SRC"; then
 	say "订阅内核校验(-t)失败"

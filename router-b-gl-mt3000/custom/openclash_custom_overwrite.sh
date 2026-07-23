@@ -60,6 +60,13 @@ begin
   d["hosts"]["www.linkedin.com"] = "104.18.41.41"
   d["hosts"]["linkedin.com"] = "130.211.32.14"
 
+  d["rule-providers"] ||= {}
+  d["rule-providers"]["Zscaler"] = {
+    "type" => "file",
+    "behavior" => "ipcidr",
+    "path" => "./rule_provider/Zscaler.yaml"
+  }
+
   d["rules"] ||= []
   d["rules"].reject! { |r|
     s = r.to_s
