@@ -15,32 +15,42 @@ begin
   fake = /^(Expire:|Traffic:|Sync:)/i
 
   d["proxies"] ||= []
-  d["proxies"].reject! { |p| p["name"].to_s =~ fake || p["name"] == "via-RouterA" }
-  d["proxies"].unshift({
-    "name" => "via-RouterA",
-    "type" => "socks5",
-    "server" => "192.168.50.1",
-    "port" => 7890,
-    "username" => "routerb",
-    "password" => "L7uC9mQ4xV2nP8sK",
-    "udp" => false
-  })
+  d["proxies"].reject! { |p|
+    n = p["name"].to_s
+    n =~ fake || n == "via-RouterA"
+  }
 
   d["proxy-groups"] ||= []
-  d["proxy-groups"].reject! { |g| g["name"] == "gmail-out" }
+  d["proxy-groups"].reject! { |g| g["name"] == "gmail-out" || g["name"] == "Rebrickable" }
   d["proxy-groups"].each do |g|
     next unless g["proxies"].is_a?(Array)
-    g["proxies"] = g["proxies"].reject { |n| n.to_s =~ fake }
+    g["proxies"] = g["proxies"].reject { |n| n.to_s =~ fake || n.to_s == "via-RouterA" || n.to_s == "gmail-out" }
   end
-  d["proxy-groups"].unshift({
-    "name" => "gmail-out",
-    "type" => "fallback",
-    "proxies" => ["via-RouterA", "DIRECT"],
-    "url" => "http://cp.cloudflare.com/generate_204",
-    "interval" => 60,
-    "timeout" => 3,
-    "lazy" => false
-  })
+
+  # Rebrickable: url-test among nodes that pass CF (see rebrickable_nodes.txt)
+  rb_file = "/etc/openclash/custom/rebrickable_nodes.txt"
+  rb_names = []
+  if File.file?(rb_file)
+    File.readlines(rb_file).each do |line|
+      n = line.strip
+      next if n.empty? || n.start_with?("#")
+      rb_names << n
+    end
+  end
+  existing = (d["proxies"] || []).map { |p| p["name"].to_s }
+  rb_names.select! { |n| existing.include?(n) }
+  if rb_names.any?
+    d["proxy-groups"].unshift({
+      "name" => "Rebrickable",
+      "type" => "url-test",
+      "proxies" => rb_names,
+      "url" => "https://rebrickable.com/api/v3/",
+      "interval" => 300,
+      "tolerance" => 50,
+      "lazy" => true,
+      "expected-status" => "200"
+    })
+  end
 
   d["dns"] ||= {}
   d["dns"]["use-hosts"] = true
@@ -63,32 +73,37 @@ begin
   d["rule-providers"] ||= {}
   d["rule-providers"]["Zscaler"] = {
     "type" => "file",
-    "behavior" => "ipcidr",
+    "behavior" => "classical",
     "path" => "./rule_provider/Zscaler.yaml"
+  }
+  d["rule-providers"].delete("ZscalerDomains")
+  d["rule-providers"]["MailSMTP"] = {
+    "type" => "file",
+    "behavior" => "classical",
+    "path" => "./rule_provider/MailSMTP.yaml"
+  }
+  d["rule-providers"]["Rebrickable"] = {
+    "type" => "file",
+    "behavior" => "classical",
+    "path" => "./rule_provider/Rebrickable.yaml"
   }
 
   d["rules"] ||= []
   d["rules"].reject! { |r|
     s = r.to_s
-    # Only strip Gmail SMTP bits we re-inject below; keep custom_rules Firstrade/AppleMedia
-    s.include?("smtp.gmail.com") || (s.include?("gmail-out") && s.include?("IP-CIDR"))
+    s.include?("gmail-out") || s.include?("via-RouterA") ||
+      s.include?("rebrickable.com") || s.start_with?("RULE-SET,Rebrickable,") ||
+      s.include?("ZscalerDomains")
   }
-  # Gmail SMTP only here; Firstrade + AppleMedia live in openclash_custom_rules.list
-  [
-    "DOMAIN,smtp.gmail.com,gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,142.250.0.0/15)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,142.250.0.0/15)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,173.194.0.0/16)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,173.194.0.0/16)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,209.85.128.0/17)),gmail-out",
-    "AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,209.85.128.0/17)),gmail-out"
-  ].reverse.each { |r| d["rules"].unshift(r) }
+
+  # OpenClash may drop custom RULE-SET→group before group exists; ensure after inject
+  if rb_names.any?
+    d["rules"].unshift("RULE-SET,Rebrickable,Rebrickable")
+  end
 
   File.open(f, "w") { |fh| YAML.dump(d, fh) }
 rescue Exception => e
-  STDERR.puts "gmail-relay/fake-strip error: #{e}"
+  STDERR.puts "overwrite error: #{e}"
 end
 ' "$CONFIG_FILE" 2>>/tmp/openclash.log
 

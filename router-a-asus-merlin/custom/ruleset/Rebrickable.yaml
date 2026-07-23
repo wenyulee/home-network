@@ -1,0 +1,5 @@
+# Classical ruleset: Rebrickable domains → proxy group Rebrickable (url-test)
+payload:
+  - DOMAIN-SUFFIX,rebrickable.com
+  - DOMAIN,rebrickable.com
+  - DOMAIN,www.rebrickable.com

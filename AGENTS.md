@@ -19,7 +19,7 @@ This is a **configuration/documentation backup** for a dual-router home network 
 - YAML: `python3 -c "import sys,yaml; yaml.safe_load(open(sys.argv[1]))" <file>`.
 
 ### Running the scripts locally (gotchas)
-- `openclash_custom_overwrite.sh` sources OpenClash system files that don't exist on the VM: `/usr/share/openclash/log.sh`, `/usr/share/openclash/ruby.sh`, `/lib/functions.sh`. To run it unmodified, create minimal stubs at those paths first (only `LOG_TIP()` is actually needed). Then invoke it with a config path as `$1`; it transforms the file in place (strips fake `Expire:`/`Traffic:` nodes, injects the `via-RouterA` socks5 proxy, adds the `gmail-out` fallback group, hardens DNS, pins Firstrade hosts, and prepends Firstrade-DIRECT / Gmail-SMTP rules). Always run it on a **throwaway copy** outside the repo.
+- `openclash_custom_overwrite.sh` sources OpenClash system files that don't exist on the VM: `/usr/share/openclash/log.sh`, `/usr/share/openclash/ruby.sh`, `/lib/functions.sh`. To run it unmodified, create minimal stubs at those paths first (only `LOG_TIP()` is actually needed). Then invoke it with a config path as `$1`; it transforms the file in place (strips fake `Expire:`/`Traffic:` nodes, injects classical rule-providers + Rebrickable url-test group, hardens DNS, pins Firstrade/LinkedIn hosts). Always run it on a **throwaway copy** outside the repo.
 - `post_sub_clean.sh` (Router A) cannot fully run on the VM: it calls the Mihomo `CrashCore -t` binary and reads on-device paths (`/jffs/...`, `/tmp/mnt/sda1`). Its awk/sed transforms can be inspected, but a full end-to-end run requires the mihomo core.
 - `wan-start` sets Asuswrt `nvram` and writes `/tmp/resolv.*`; **do not run it on the VM** — it is only meaningful on the router.
 
@@ -29,4 +29,4 @@ Committed files contain the placeholder `REDACTED_MIXED_AUTH` (and `secrets.exam
 ### On-device troubleshooting notes (from live client symptoms)
 - B-side clients use OpenClash **fake-ip** (`198.18.0.0/16`). Resolving e.g. `www.linkedin.com` → `198.18.x.x` is expected, not DNS pollution.
 - Pattern **TCP connects to fake-ip, then TLS handshake times out** means the path Mac→Clash hijack is fine; the failure is the **selected outbound / proxy chain** (dead node, LinkedIn blocking the exit IP, or bad rule group)—not missing `ip_filter`. For B-side `192.168.8.182`, **keep double-proxy** (A `ip_filter` empty); see `docs/changelog/2026-07-22-b-double-proxy-keep.md`.
-- This repo has **no LinkedIn-specific rules**; default subscription GEOIP/rule-set chooses the outbound. Quick client checks: OpenClash Dashboard → inspect Rule/Chains for the connection; try DIRECT vs another node; compare with `curl -x http://127.0.0.1:<mixed-port>`.
+- LinkedIn: custom rules send `.com` → 全球代理 and `.cn` → REJECT; hosts/DoH also in overwrite. Dashboard → inspect Rule/Chains; try another node if TLS stalls.

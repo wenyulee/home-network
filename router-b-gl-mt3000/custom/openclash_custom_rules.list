@@ -1,33 +1,20 @@
 rules:
-## Zscaler: official IP ranges + domains → proxy
+## Zscaler: domains + IPs (one classical ruleset)
 - RULE-SET,Zscaler,手动选择,no-resolve
-- DOMAIN-SUFFIX,zscaler.com,手动选择
-- DOMAIN-SUFFIX,zscaler.net,手动选择
-- DOMAIN-SUFFIX,zscloud.net,手动选择
-- DOMAIN-SUFFIX,zscalerthree.net,手动选择
-- DOMAIN-SUFFIX,zscalerone.net,手动选择
-- DOMAIN-SUFFIX,zscalertwo.net,手动选择
-- DOMAIN-SUFFIX,zpath.net,手动选择
 ## LinkedIn: stay on .com (DNS/hosts still in overwrite.sh)
 - DOMAIN-SUFFIX,linkedin.com,全球代理
 - DOMAIN-SUFFIX,licdn.com,全球代理
 - DOMAIN-SUFFIX,linkedin.cn,REJECT
 - DOMAIN-SUFFIX,licdn.cn,REJECT
-## Apple TV+ / Music / News only (same idea as Netflix/Disney+); rest of Apple stays DIRECT
+## Apple TV+ / Music / News only; rest of Apple stays DIRECT
 - RULE-SET,AppleMedia,手动选择
-## Firstrade: CF App hosts → proxy; rest DIRECT (home IP). smtp.gmail → overwrite gmail-out
+## Firstrade: CF App hosts → proxy; rest DIRECT (home IP)
 - DOMAIN,api3x.firstrade.com,手动选择
 - DOMAIN,streamingx.firstrade.com,手动选择
 - DOMAIN,invest.firstrade.com,手动选择
 - DOMAIN-SUFFIX,firstrade.com,DIRECT
 - DOMAIN-SUFFIX,firstrade.net,DIRECT
-## Mail SMTP + Rebrickable (managed)
-- DOMAIN-SUFFIX,mail.me.com,DIRECT
-- DOMAIN-KEYWORD,smtp.mail,DIRECT
-- DOMAIN,smtp.googlemail.com,DIRECT
-- DOMAIN,smtp-relay.gmail.com,DIRECT
-- DOMAIN,smtp.purelymail.com,DIRECT
-- DOMAIN,smtp.mail.me.com,DIRECT
-- DOMAIN-SUFFIX,rebrickable.com,🇪🇸 西班牙 01
-- DOMAIN,rebrickable.com,🇪🇸 西班牙 01
-- DOMAIN,www.rebrickable.com,🇪🇸 西班牙 01
+## Mail SMTP → DIRECT (rule_provider/MailSMTP.yaml)
+- RULE-SET,MailSMTP,DIRECT
+## Rebrickable → url-test group (rule_provider/Rebrickable.yaml)
+- RULE-SET,Rebrickable,Rebrickable

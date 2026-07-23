@@ -7,36 +7,47 @@ Core: Mihomo via ShellCrash，API `:9999`，mixed `:7890`
 
 | Repo | 裝置 |
 |------|------|
-| `custom/rules.yaml` | `/jffs/ShellCrash/yamls/rules.yaml` |
-| `custom/ruleset/Zscaler.yaml` | `/jffs/ShellCrash/ruleset/Zscaler.yaml`（官方 CENR/hubs/ZPA IP，折叠） |
+| `custom/rules.yaml` | `/jffs/ShellCrash/yamls/rules.yaml`（啟動插入規則最前） |
+| `custom/ruleset/Zscaler.yaml` | `/jffs/ShellCrash/ruleset/Zscaler.yaml`（classical：域名+IP） |
+| `custom/ruleset/MailSMTP.yaml` | `/jffs/ShellCrash/ruleset/MailSMTP.yaml` |
+| `custom/ruleset/Rebrickable.yaml` | `/jffs/ShellCrash/ruleset/Rebrickable.yaml` |
+| `custom/rebrickable_nodes.txt` | `/jffs/ShellCrash/yamls/rebrickable_nodes.txt` |
 | `custom/update_zscaler_ruleset.sh` | `/jffs/ShellCrash/scripts/update_zscaler_ruleset.sh` |
 | `custom/update_sub_clean.sh` | `/jffs/ShellCrash/task/update_sub_clean.sh` |
-| `custom/dnsmasq.conf.add` | `/jffs/configs/dnsmasq.conf.add`（`filter-AAAA` + Firstrade IP 钉选 + 外域 DNS） |
-| `custom/user.yaml` | `/jffs/ShellCrash/yamls/user.yaml`（DNS/hosts 覆盖，防 restart 回退） |
-| `custom/ShellCrash.cfg.dns-snippet` | 写入 `/jffs/ShellCrash/configs/ShellCrash.cfg` 的 `dns_*` / `multiport` 项 |
+| `custom/dnsmasq.conf.add` | `/jffs/configs/dnsmasq.conf.add` |
+| `custom/user.yaml` | `/jffs/ShellCrash/yamls/user.yaml` |
+| `custom/ShellCrash.cfg.dns-snippet` | 寫入 `ShellCrash.cfg` 的 `dns_*` / `multiport` |
 | `custom/fulltcp_by_mac.sh` | `/jffs/ShellCrash/scripts/fulltcp_by_mac.sh` |
 | `custom/fulltcp_mac.list` | `/jffs/ShellCrash/configs/fulltcp_mac.list` |
-| `custom/task-afstart` | `/jffs/ShellCrash/task/afstart`（含 fulltcp 调用） |
+| `custom/task-afstart` | `/jffs/ShellCrash/task/afstart` |
 | `custom/post_sub_clean.sh` | `/jffs/ShellCrash/yamls/post_sub_clean.sh` |
 | `custom/wan-start` | `/jffs/scripts/wan-start` |
-| `custom/ip_filter` | `/jffs/ShellCrash/configs/ip_filter` |
-| `custom/tailscale/start.sh` | `/jffs/tailscale/start.sh` |
-| `custom/tailscale/post-mount.sh` | `/jffs/scripts/post-mount`（含 Tailscale 啟動段） |
-| （由訂閱 + post 生成） | `/jffs/ShellCrash/yamls/config.yaml` ↔ runtime `/tmp/ShellCrash/config.yaml` |
-| （不入库） | `/tmp/mnt/sda1/tailscale/bin/*`、`…/state/tailscaled.state` |
+| `custom/ip_filter` | `/jffs/ShellCrash/configs/ip_filter`（保持清空） |
+| `custom/tailscale/*` | `/jffs/tailscale/start.sh`、`/jffs/scripts/post-mount` |
+| （訂閱 + post 生成） | `/jffs/ShellCrash/yamls/config.yaml` ↔ `/tmp/ShellCrash/config.yaml` |
+
+## 訂製規則（`rules.yaml`）
+
+| 規則 | 出口 |
+|------|------|
+| `RULE-SET,Zscaler` | 手动选择 |
+| Firstrade api3x / streamingx / invest | 手动选择 |
+| Firstrade 其餘 suffix | DIRECT |
+| `RULE-SET,AppleMedia` | 手动选择（壓過訂閱預設 →Apple） |
+| LinkedIn `.com` / `.cn` | 全球代理 / REJECT |
+| `RULE-SET,MailSMTP` | DIRECT |
+| `RULE-SET,Rebrickable` | **Rebrickable**（url-test 組） |
 
 ## 訂製說明
 
-- **`user.yaml`**：ShellCrash 官方合并覆盖。含 `dns:` / `hosts:` 时，启动**不会**再生成把 `direct-nameserver` 指到 `127.0.0.1` 的默认 DNS 块。见 `docs/changelog/2026-07-22-a-dns-persist.md`。
-- **`ShellCrash.cfg` `dns_nameserver=…`**：显式国内 DNS，避免 `get_config.sh` 因本机 dnsmasq 自动改成 `127.0.0.1`。
-- **`ShellCrash.cfg` `multiport=…`**：常用埠過濾含 `10301`（Zscaler），全網生效；指定 Mac 另有 `fulltcp_mac.list` 全 TCP。
-- **`rules.yaml`**：啟動時插到規則最前。Firstrade：api3x/streamingx/invest→手动选择，其餘 DIRECT；SMTP DIRECT；Rebrickable 西班牙；AppleMedia→手动选择。
-- **`post_sub_clean.sh`**：訂閱下載後：體積/結構檢查、剝假節點、LAN auth（從 `ShellCrash.cfg` 讀）、DNS harden、Firstrade hosts pin、`-t` 校驗、備份。
-- **訂閱更新**：`task.list` 的 **104** 与 `task.user` 的 204 均指向 `update_sub_clean.sh`（部署见 `custom/task.list.104`）。勿恢复成裸 `update_config`。
-- **软件升级**：`check_updates.sh` 只提示；当前勿升 1.9.5**beta1**（见 `/tmp/ShellCrash/update_check.txt`）。
-- **`wan-start`**：WAN 起來時強制系統 DNS 為阿里/DNSPod。
-- **`ip_filter`**：ShellCrash LAN IP 過濾（黑名單 → 源 IP `RETURN`）。**保持清空**：不排除 B WAN；B 側 `192.168.8.182` 依賴雙層代理才能上大部分網站。
+- **`user.yaml`**：DNS / hosts 覆蓋；勿寫頂層 `ipv6: false`（會與 ShellCrash `set.yaml` 重複導致 `-t` 失敗）。見 changelog DNS persist。
+- **`ShellCrash.cfg`**：`dns_nameserver`、`multiport`（含 Zscaler `10301`）、mixed-port `authentication`（供 LAN 客戶端；郵箱不再經 B socks）。
+- **`ruleset/`**：皆 **classical**。`update_zscaler_ruleset.sh` 重抓官方 IP 時會保留域名段。
+- **`post_sub_clean.sh`**：訂閱後剝假節點（只刪 `name: 'Expire:…'` 行）、注入 rule-providers + Rebrickable url-test 組、DNS/Firstrade harden、`-t`、備份。
+- **訂閱更新**：`task.list` **104** 與 `task.user` **204** → `update_sub_clean.sh`（勿改回裸 `update_config`）。
+- **軟體升級**：勿自動升 1.9.5**beta1**。
+- **重啟後**：確認 `手动选择`→`自动选择`、`Apple`→`DIRECT`；必要時跑 `fulltcp_by_mac.sh`。
 
 ## Snippets
 
-`snippets/dns-hosts.yaml` 從 2026-07-22 生效配置擷取（含 Firstrade hosts + DNS）。完整訂閱檔不入库。
+`snippets/dns-hosts.yaml` 從生效配置擷取。完整訂閱檔不入库。

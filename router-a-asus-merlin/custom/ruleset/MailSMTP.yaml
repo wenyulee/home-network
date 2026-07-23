@@ -1,0 +1,21 @@
+# Classical ruleset: outbound SMTP / mail submission → DIRECT
+# (airport nodes often block 587/465; keep home ISP path)
+payload:
+  - DST-PORT,587
+  - DST-PORT,465
+  - DOMAIN-SUFFIX,mail.me.com
+  - DOMAIN-KEYWORD,smtp.mail
+  - DOMAIN,smtp.mail.me.com
+  - DOMAIN,smtp.gmail.com
+  - DOMAIN,smtp.googlemail.com
+  - DOMAIN,smtp-relay.gmail.com
+  - DOMAIN,smtp.purelymail.com
+  # Gmail SMTP by Google IP + port (when client skips hostname)
+  - AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16))
+  - AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16))
+  - AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,142.250.0.0/15))
+  - AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,142.250.0.0/15))
+  - AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,173.194.0.0/16))
+  - AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,173.194.0.0/16))
+  - AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,209.85.128.0/17))
+  - AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,209.85.128.0/17))

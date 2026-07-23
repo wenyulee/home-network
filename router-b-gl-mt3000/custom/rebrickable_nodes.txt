@@ -1,0 +1,32 @@
+# Nodes that pass rebrickable.com API (CF 1005 blocks most JP/HK/TW/SG/US).
+# Rebuild Rebrickable url-test group from these names (must match subscription).
+🇯🇵 日本 media 01
+🇰🇷 韩国 01
+🇻🇳 越南 01
+🇻🇳 越南 02
+🇹🇭 泰国 01
+🇮🇳 印度 01
+🇵🇭 菲律宾 01
+🇮🇩 印度尼西亚 01
+🇹🇷 土耳其 01
+🇮🇹 意大利 01
+🇫🇷 法国 01
+🇧🇷 巴西 01
+🇦🇪 迪拜 01
+🇩🇪 德国 01
+🇪🇸 西班牙 01
+🇨🇦 加拿大 01
+🇷🇺 俄罗斯 01
+🇸🇪 瑞典 01
+🇦🇷 阿根廷 01
+🇵🇱 波兰 01
+🇳🇱 荷兰 01
+🇬🇧 英国 01
+🇪🇬 埃及 01
+🇭🇺 匈牙利 01
+🇲🇽 墨西哥 01
+🇲🇩 摩尔多瓦 01
+🇨🇴 哥伦比亚 01
+🇦🇺 澳大利亚 01
+🇵🇰 巴基斯坦 01
+🇳🇬 尼日利亚 01

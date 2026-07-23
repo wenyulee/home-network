@@ -9,4 +9,6 @@
 .env.*
 secrets.local.*
 !secrets.example
+**/usb-bootstrap/secrets.env
+**/usb-bootstrap/dist/
 backups/local-raw/

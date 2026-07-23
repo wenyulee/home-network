@@ -137,18 +137,54 @@ awk '
 ' "$SRC" > /tmp/sslinks-dedupe.$$ && mv -f /tmp/sslinks-dedupe.$$ "$SRC"
 say "Stripped duplicate #Firstrade managed rules (use rules.yaml)"
 
-# 2d. Inject Zscaler ipcidr rule-provider (file); do NOT use others.yaml (duplicate key)
-if [ -s /jffs/ShellCrash/ruleset/Zscaler.yaml ]; then
-	awk '
-	  /Zscaler:[[:space:]]*\{/ { next }
-	  /^rule-providers:/ {
-	    print
-	    print "    Zscaler: { type: file, behavior: ipcidr, path: ./ruleset/Zscaler.yaml }"
-	    next
-	  }
-	  { print }
-	' "$SRC" > /tmp/sslinks-zscaler.$$ && mv -f /tmp/sslinks-zscaler.$$ "$SRC"
-	say "Zscaler rule-provider injected"
+# 2d. Inject local file rule-providers (classical bundles + Zscaler)
+awk '
+  /Zscaler:[[:space:]]*\{/ { next }
+  /ZscalerDomains:[[:space:]]*\{/ { next }
+  /MailSMTP:[[:space:]]*\{/ { next }
+  /Rebrickable:[[:space:]]*\{ type: file/ { next }
+  /^rule-providers:/ {
+    print
+    print "    Zscaler: { type: file, behavior: classical, path: ./ruleset/Zscaler.yaml }"
+    print "    MailSMTP: { type: file, behavior: classical, path: ./ruleset/MailSMTP.yaml }"
+    print "    Rebrickable: { type: file, behavior: classical, path: ./ruleset/Rebrickable.yaml }"
+    next
+  }
+  { print }
+' "$SRC" > /tmp/sslinks-providers.$$ && mv -f /tmp/sslinks-providers.$$ "$SRC"
+say "Local rule-providers injected (Zscaler/MailSMTP/Rebrickable)"
+
+# 2e. Inject Rebrickable url-test group (CF-safe nodes only; see rebrickable_nodes.txt)
+RB_NODES_FILE=/jffs/ShellCrash/yamls/rebrickable_nodes.txt
+[ -s "$RB_NODES_FILE" ] || RB_NODES_FILE=/jffs/ShellCrash/rebrickable_nodes.txt
+# Drop any previous Rebrickable group line
+sed -i "/name: Rebrickable[, }]/d" "$SRC" 2>/dev/null
+if [ -s "$RB_NODES_FILE" ]; then
+	RB_LIST=""
+	while IFS= read -r n || [ -n "$n" ]; do
+		case "$n" in \#*|"") continue ;; esac
+		# only keep names that still exist in this subscription
+		if grep -q "'$n'" "$SRC" 2>/dev/null; then
+			if [ -n "$RB_LIST" ]; then
+				RB_LIST="$RB_LIST, '$n'"
+			else
+				RB_LIST="'$n'"
+			fi
+		fi
+	done < "$RB_NODES_FILE"
+	if [ -n "$RB_LIST" ]; then
+		awk -v plist="$RB_LIST" '
+		  /^proxy-groups:/ {
+		    print
+		    print "    - { name: Rebrickable, type: url-test, proxies: [" plist "], tolerance: 50, lazy: true, url: '\''https://rebrickable.com/api/v3/'\'', interval: 300, expected-status: 200 }"
+		    next
+		  }
+		  { print }
+		' "$SRC" > /tmp/sslinks-rebrick.$$ && mv -f /tmp/sslinks-rebrick.$$ "$SRC"
+		say "Rebrickable url-test group injected"
+	else
+		say "Rebrickable: no listed nodes present in subscription (skipped)"
+	fi
 fi
 
 # 3. Full validation with the core itself (same check ShellCrash uses at startup)
@@ -165,22 +201,13 @@ if [ -d /tmp/mnt/sda1 ] && mkdir -p "$USBDIR" 2>/dev/null; then
 fi
 say "订阅校验通过，备份已更新"
 
-# 5. Custom SMTP/mail rules file (create once)
+# 5. Custom rules file (create once) — prefer RULE-SET bundles
 if [ ! -s "$RULES" ]; then
 cat > "$RULES" <<'RULESEOF'
 # ShellCrash 自定义规则（启动时自动插入最前）
-- DST-PORT,587,DIRECT
-- DST-PORT,465,DIRECT
-- DOMAIN-SUFFIX,mail.me.com,DIRECT
-- DOMAIN-KEYWORD,smtp.mail,DIRECT
-- DOMAIN,smtp.mail.me.com,DIRECT
-- DOMAIN,smtp.gmail.com,DIRECT
-- DOMAIN,smtp.googlemail.com,DIRECT
-- DOMAIN,smtp-relay.gmail.com,DIRECT
-- DOMAIN,smtp.purelymail.com,DIRECT
-- DOMAIN-SUFFIX,rebrickable.com,🇪🇸 西班牙 01
-- DOMAIN,rebrickable.com,🇪🇸 西班牙 01
-- DOMAIN,www.rebrickable.com,🇪🇸 西班牙 01
+- RULE-SET,Zscaler,手动选择,no-resolve
+- RULE-SET,MailSMTP,DIRECT
+- RULE-SET,Rebrickable,Rebrickable
 RULESEOF
 fi
 exit 0
