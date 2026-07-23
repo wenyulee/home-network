@@ -17,3 +17,5 @@
 - RULE-SET,MailSMTP,DIRECT
 # Rebrickable → url-test group (see ruleset/Rebrickable.yaml + rebrickable_nodes.txt)
 - RULE-SET,Rebrickable,Rebrickable
+# .jp + taigatakahashi.com → Japan url-test (see ruleset/Japan.yaml + japan_nodes.txt)
+- RULE-SET,Japan,Japan

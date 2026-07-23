@@ -46,11 +46,13 @@ mkdir -p /etc/openclash/custom /etc/openclash/config /etc/openclash/rule_provide
 say "install OpenClash custom files"
 cp -f "$PAYLOAD/openclash_custom_rules.list" /etc/openclash/custom/openclash_custom_rules.list
 cp -f "$PAYLOAD/openclash_custom_overwrite.sh" /etc/openclash/custom/openclash_custom_overwrite.sh
-for f in Zscaler.yaml MailSMTP.yaml Rebrickable.yaml; do
+for f in Zscaler.yaml MailSMTP.yaml Rebrickable.yaml Japan.yaml; do
 	[ -f "$PAYLOAD/$f" ] && cp -f "$PAYLOAD/$f" /etc/openclash/rule_provider/"$f"
 done
 rm -f /etc/openclash/rule_provider/ZscalerDomains.yaml
-[ -f "$PAYLOAD/rebrickable_nodes.txt" ] && cp -f "$PAYLOAD/rebrickable_nodes.txt" /etc/openclash/custom/rebrickable_nodes.txt
+for n in rebrickable_nodes.txt japan_nodes.txt; do
+	[ -f "$PAYLOAD/$n" ] && cp -f "$PAYLOAD/$n" /etc/openclash/custom/"$n"
+done
 chmod 644 /etc/openclash/custom/openclash_custom_rules.list /etc/openclash/rule_provider/*.yaml 2>/dev/null || true
 chmod 755 /etc/openclash/custom/openclash_custom_overwrite.sh
 

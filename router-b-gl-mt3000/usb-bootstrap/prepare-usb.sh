@@ -22,13 +22,15 @@ cp -f "$HERE/../custom/openclash_custom_rules.list" "$BOOT/payload/"
 cp -f "$HERE/../custom/openclash_custom_overwrite.sh" "$BOOT/payload/"
 cp -f "$HERE/../custom/tailscale/uci-tailscale" "$BOOT/payload/"
 RS="$REPO/router-a-asus-merlin/custom/ruleset"
-cp -f "$RS/Zscaler.yaml" "$RS/MailSMTP.yaml" "$RS/Rebrickable.yaml" "$BOOT/payload/"
-# optional node list for Rebrickable url-test
-if [ -f "$HERE/../custom/rebrickable_nodes.txt" ]; then
-	cp -f "$HERE/../custom/rebrickable_nodes.txt" "$BOOT/payload/"
-elif [ -f "$REPO/router-a-asus-merlin/custom/rebrickable_nodes.txt" ]; then
-	cp -f "$REPO/router-a-asus-merlin/custom/rebrickable_nodes.txt" "$BOOT/payload/"
-fi
+cp -f "$RS/Zscaler.yaml" "$RS/MailSMTP.yaml" "$RS/Rebrickable.yaml" "$RS/Japan.yaml" "$BOOT/payload/"
+# optional node lists
+for n in rebrickable_nodes.txt japan_nodes.txt; do
+	if [ -f "$HERE/../custom/$n" ]; then
+		cp -f "$HERE/../custom/$n" "$BOOT/payload/"
+	elif [ -f "$REPO/router-a-asus-merlin/custom/$n" ]; then
+		cp -f "$REPO/router-a-asus-merlin/custom/$n" "$BOOT/payload/"
+	fi
+done
 chmod +x "$BOOT/payload/openclash_custom_overwrite.sh"
 
 if [ -f "$HERE/secrets.env" ]; then

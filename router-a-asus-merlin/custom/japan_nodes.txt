@@ -1,0 +1,10 @@
+# Japan url-test pool (must match subscription node names)
+🇯🇵 日本 01
+🇯🇵 日本 02
+🇯🇵 日本 03
+🇯🇵 日本 04
+🇯🇵 日本 05
+🇯🇵 日本 06
+🇯🇵 日本 07
+🇯🇵 日本 08
+🇯🇵 日本 media 01

@@ -143,16 +143,18 @@ awk '
   /ZscalerDomains:[[:space:]]*\{/ { next }
   /MailSMTP:[[:space:]]*\{/ { next }
   /Rebrickable:[[:space:]]*\{ type: file/ { next }
+  /Japan:[[:space:]]*\{ type: file/ { next }
   /^rule-providers:/ {
     print
     print "    Zscaler: { type: file, behavior: classical, path: ./ruleset/Zscaler.yaml }"
     print "    MailSMTP: { type: file, behavior: classical, path: ./ruleset/MailSMTP.yaml }"
     print "    Rebrickable: { type: file, behavior: classical, path: ./ruleset/Rebrickable.yaml }"
+    print "    Japan: { type: file, behavior: classical, path: ./ruleset/Japan.yaml }"
     next
   }
   { print }
 ' "$SRC" > /tmp/sslinks-providers.$$ && mv -f /tmp/sslinks-providers.$$ "$SRC"
-say "Local rule-providers injected (Zscaler/MailSMTP/Rebrickable)"
+say "Local rule-providers injected (Zscaler/MailSMTP/Rebrickable/Japan)"
 
 # 2e. Inject Rebrickable url-test group (CF-safe nodes only; see rebrickable_nodes.txt)
 RB_NODES_FILE=/jffs/ShellCrash/yamls/rebrickable_nodes.txt
@@ -187,6 +189,37 @@ if [ -s "$RB_NODES_FILE" ]; then
 	fi
 fi
 
+# 2f. Inject Japan url-test group (all 🇯🇵 nodes; see japan_nodes.txt)
+JP_NODES_FILE=/jffs/ShellCrash/yamls/japan_nodes.txt
+[ -s "$JP_NODES_FILE" ] || JP_NODES_FILE=/jffs/ShellCrash/japan_nodes.txt
+sed -i "/name: Japan[, }]/d" "$SRC" 2>/dev/null
+if [ -s "$JP_NODES_FILE" ]; then
+	JP_LIST=""
+	while IFS= read -r n || [ -n "$n" ]; do
+		case "$n" in \#*|"") continue ;; esac
+		if grep -q "'$n'" "$SRC" 2>/dev/null; then
+			if [ -n "$JP_LIST" ]; then
+				JP_LIST="$JP_LIST, '$n'"
+			else
+				JP_LIST="'$n'"
+			fi
+		fi
+	done < "$JP_NODES_FILE"
+	if [ -n "$JP_LIST" ]; then
+		awk -v plist="$JP_LIST" '
+		  /^proxy-groups:/ {
+		    print
+		    print "    - { name: Japan, type: url-test, proxies: [" plist "], tolerance: 50, lazy: true, url: '\''http://www.gstatic.com/generate_204'\'', interval: 300 }"
+		    next
+		  }
+		  { print }
+		' "$SRC" > /tmp/sslinks-japan.$$ && mv -f /tmp/sslinks-japan.$$ "$SRC"
+		say "Japan url-test group injected"
+	else
+		say "Japan: no listed nodes present in subscription (skipped)"
+	fi
+fi
+
 # 3. Full validation with the core itself (same check ShellCrash uses at startup)
 if ! core_test "$SRC"; then
 	say "订阅内核校验(-t)失败"
@@ -208,6 +241,7 @@ cat > "$RULES" <<'RULESEOF'
 - RULE-SET,Zscaler,手动选择,no-resolve
 - RULE-SET,MailSMTP,DIRECT
 - RULE-SET,Rebrickable,Rebrickable
+- RULE-SET,Japan,Japan
 RULESEOF
 fi
 exit 0

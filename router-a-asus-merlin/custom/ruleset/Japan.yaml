@@ -1,0 +1,6 @@
+# Classical: Japan-targeted sites → proxy group Japan (url-test)
+payload:
+  - DOMAIN-SUFFIX,jp
+  - DOMAIN-SUFFIX,taigatakahashi.com
+  - DOMAIN,taigatakahashi.com
+  - DOMAIN,www.taigatakahashi.com

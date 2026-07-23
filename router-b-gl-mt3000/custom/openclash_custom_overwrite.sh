@@ -21,24 +21,27 @@ begin
   }
 
   d["proxy-groups"] ||= []
-  d["proxy-groups"].reject! { |g| g["name"] == "gmail-out" || g["name"] == "Rebrickable" }
+  d["proxy-groups"].reject! { |g| g["name"] == "gmail-out" || g["name"] == "Rebrickable" || g["name"] == "Japan" }
   d["proxy-groups"].each do |g|
     next unless g["proxies"].is_a?(Array)
     g["proxies"] = g["proxies"].reject { |n| n.to_s =~ fake || n.to_s == "via-RouterA" || n.to_s == "gmail-out" }
   end
 
-  # Rebrickable: url-test among nodes that pass CF (see rebrickable_nodes.txt)
-  rb_file = "/etc/openclash/custom/rebrickable_nodes.txt"
-  rb_names = []
-  if File.file?(rb_file)
-    File.readlines(rb_file).each do |line|
+  existing = (d["proxies"] || []).map { |p| p["name"].to_s }
+
+  load_names = lambda do |path|
+    names = []
+    return names unless File.file?(path)
+    File.readlines(path).each do |line|
       n = line.strip
       next if n.empty? || n.start_with?("#")
-      rb_names << n
+      names << n
     end
+    names.select { |n| existing.include?(n) }
   end
-  existing = (d["proxies"] || []).map { |p| p["name"].to_s }
-  rb_names.select! { |n| existing.include?(n) }
+
+  # Rebrickable: url-test among CF-safe nodes
+  rb_names = load_names.call("/etc/openclash/custom/rebrickable_nodes.txt")
   if rb_names.any?
     d["proxy-groups"].unshift({
       "name" => "Rebrickable",
@@ -49,6 +52,20 @@ begin
       "tolerance" => 50,
       "lazy" => true,
       "expected-status" => "200"
+    })
+  end
+
+  # Japan: url-test among 🇯🇵 nodes (.jp / taigatakahashi.com)
+  jp_names = load_names.call("/etc/openclash/custom/japan_nodes.txt")
+  if jp_names.any?
+    d["proxy-groups"].unshift({
+      "name" => "Japan",
+      "type" => "url-test",
+      "proxies" => jp_names,
+      "url" => "http://www.gstatic.com/generate_204",
+      "interval" => 300,
+      "tolerance" => 50,
+      "lazy" => true
     })
   end
 
@@ -87,18 +104,27 @@ begin
     "behavior" => "classical",
     "path" => "./rule_provider/Rebrickable.yaml"
   }
+  d["rule-providers"]["Japan"] = {
+    "type" => "file",
+    "behavior" => "classical",
+    "path" => "./rule_provider/Japan.yaml"
+  }
 
   d["rules"] ||= []
   d["rules"].reject! { |r|
     s = r.to_s
     s.include?("gmail-out") || s.include?("via-RouterA") ||
       s.include?("rebrickable.com") || s.start_with?("RULE-SET,Rebrickable,") ||
-      s.include?("ZscalerDomains")
+      s.start_with?("RULE-SET,Japan,") || s.include?("ZscalerDomains") ||
+      s.include?("DOMAIN-SUFFIX,jp,") || s.include?("taigatakahashi.com")
   }
 
   # OpenClash may drop custom RULE-SET→group before group exists; ensure after inject
   if rb_names.any?
     d["rules"].unshift("RULE-SET,Rebrickable,Rebrickable")
+  end
+  if jp_names.any?
+    d["rules"].unshift("RULE-SET,Japan,Japan")
   end
 
   File.open(f, "w") { |fh| YAML.dump(d, fh) }

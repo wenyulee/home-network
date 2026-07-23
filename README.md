@@ -34,6 +34,7 @@ backups/snapshot-*
 | `AppleMedia` | 手动选择 | **同一份**訂閱規則集；前置覆蓋預設的 `AppleMedia→Apple`（Apple 其餘仍可 DIRECT） |
 | `MailSMTP` | DIRECT | Gmail / iCloud SMTP、587/465、Google SMTP IP |
 | `Rebrickable` | **Rebrickable** 組 | url-test ≈30 個 CF 可用節點（非單一西班牙） |
+| `Japan` | **Japan** 組 | `.jp` + `taigatakahashi.com` → 🇯🇵 url-test |
 | Firstrade | api3x/streamingx/invest→手动选择；其餘 DIRECT | App CDN 走代理；官網回家寬 IP |
 | LinkedIn | `.com`→全球代理；`.cn`→REJECT | hosts / DoH 在 overwrite／user |
 
