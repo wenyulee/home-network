@@ -1,3 +1,9 @@
+# STALE SNAPSHOT — predates the 2026-07-23 opt-batch changes:
+#   - www.firstrade.com host below is the pre-calibration IP; current value is 76.76.21.93.
+#   - rules_prefix gmail-out/via-RouterA lines below no longer exist: mail now uses
+#     RULE-SET,MailSMTP,DIRECT (see ../custom/openclash_custom_rules.list), and
+#     openclash_custom_overwrite.sh actively strips any gmail-out/via-RouterA it finds.
+# Kept for historical reference only; do not treat as current device state.
 ---
 dns:
   enable: true
