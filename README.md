@@ -16,7 +16,7 @@
 router-a-asus-merlin/custom/          # A 訂製（上機路徑見該目錄 README）
   rules.yaml / ruleset/ / post_sub_clean.sh / …
 router-b-gl-mt3000/custom/            # B OpenClash overwrite / rules / rebrickable_nodes
-router-b-gl-mt3000/usb-bootstrap/     # 新機 U 盤一鍵安裝
+router-b-gl-mt3000/usb-bootstrap/     # 新機 U 盤：僅裝 Zscaler 訂製規則
 docs/topology.md
 docs/tailscale.md
 docs/ops-notes.md
@@ -55,4 +55,4 @@ backups/snapshot-*
 - 快照見 `backups/snapshot-*`；還原見該目錄 `README.md`。
 - A：改 `yamls/*` 後 `start.sh restart`（會重合併 `rules.yaml`）；或 `PUT /configs?force=true`。
 - B：改 `custom/*` 後 `/etc/init.d/openclash restart`（overwrite 注入 runtime）。
-- 新 B：`router-b-gl-mt3000/usb-bootstrap/`。
+- 新 B：`router-b-gl-mt3000/usb-bootstrap/`（僅 Zscaler；完整訂製見 `custom/`）。

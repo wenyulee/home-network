@@ -1,15 +1,14 @@
 #!/bin/sh
-# Build / refresh USB payload from repo (run on Mac).
-# Usage:
-#   ./prepare-usb.sh                  # write into ./dist/
-#   ./prepare-usb.sh /Volumes/USB     # also copy tree to USB stick
+# Build USB payload: Zscaler custom rules only (run on Mac).
+#   ./prepare-usb.sh
+#   ./prepare-usb.sh /Volumes/USB
 set -e
 HERE=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 REPO=$(CDPATH= cd -- "$HERE/../.." && pwd)
 DEST="${1:-$HERE/dist}"
 BOOT="$DEST/router-b-bootstrap"
 
-echo "prepare → $BOOT"
+echo "prepare → $BOOT (Zscaler-only)"
 rm -rf "$BOOT"
 mkdir -p "$BOOT/payload"
 
@@ -18,26 +17,16 @@ cp -f "$HERE/README.md" "$BOOT/README.md"
 cp -f "$HERE/secrets.env.example" "$BOOT/secrets.env.example"
 chmod +x "$BOOT/install.sh"
 
-cp -f "$HERE/../custom/openclash_custom_rules.list" "$BOOT/payload/"
-cp -f "$HERE/../custom/openclash_custom_overwrite.sh" "$BOOT/payload/"
-cp -f "$HERE/../custom/tailscale/uci-tailscale" "$BOOT/payload/"
-RS="$REPO/router-a-asus-merlin/custom/ruleset"
-cp -f "$RS/Zscaler.yaml" "$RS/MailSMTP.yaml" "$RS/Rebrickable.yaml" "$RS/Japan.yaml" "$BOOT/payload/"
-# optional node lists
-for n in rebrickable_nodes.txt japan_nodes.txt; do
-	if [ -f "$HERE/../custom/$n" ]; then
-		cp -f "$HERE/../custom/$n" "$BOOT/payload/"
-	elif [ -f "$REPO/router-a-asus-merlin/custom/$n" ]; then
-		cp -f "$REPO/router-a-asus-merlin/custom/$n" "$BOOT/payload/"
-	fi
-done
+cp -f "$HERE/zscaler_only_rules.list" "$BOOT/payload/openclash_custom_rules.list"
+cp -f "$HERE/zscaler_only_overwrite.sh" "$BOOT/payload/openclash_custom_overwrite.sh"
+cp -f "$REPO/router-a-asus-merlin/custom/ruleset/Zscaler.yaml" "$BOOT/payload/Zscaler.yaml"
 chmod +x "$BOOT/payload/openclash_custom_overwrite.sh"
 
 if [ -f "$HERE/secrets.env" ]; then
 	cp -f "$HERE/secrets.env" "$BOOT/secrets.env"
 	echo "included secrets.env"
 else
-	echo "NOTE: no secrets.env yet — copy secrets.env.example → secrets.env, fill, re-run prepare"
+	echo "NOTE: secrets.env optional (dashboard pass / SUB_URL)"
 fi
 
 echo "OK: $BOOT"

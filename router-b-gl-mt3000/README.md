@@ -32,4 +32,4 @@ IPv6：`dhcp.lan.ra/dhcpv6=disabled`、`network.wan.ipv6=0`
 
 ## 新機一鍵安裝（U 盤）
 
-見 [`usb-bootstrap/README.md`](usb-bootstrap/README.md)。
+見 [`usb-bootstrap/README.md`](usb-bootstrap/README.md)：**僅裝 Zscaler** 訂製規則；其餘訂製仍用本目錄 `custom/` 手動同步。

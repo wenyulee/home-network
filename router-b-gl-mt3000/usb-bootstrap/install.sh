@@ -1,9 +1,6 @@
 #!/bin/sh
-# Router B (GL-MT3000) — one-shot install from USB.
-# Run on the router after plugging the stick, e.g.:
+# Router B (GL-MT3000) — USB install: Zscaler custom rules only.
 #   sh /tmp/mountd/disk1_part1/router-b-bootstrap/install.sh
-# or:
-#   sh /mnt/sda1/router-b-bootstrap/install.sh
 set -e
 
 ROOT=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
@@ -17,69 +14,44 @@ die() { say "ERROR: $*"; exit 1; }
 [ "$(id -u)" = "0" ] || die "must run as root"
 [ -f /etc/openwrt_release ] || die "not OpenWrt"
 [ -d "$PAYLOAD" ] || die "missing payload/ next to install.sh"
+[ -f "$PAYLOAD/Zscaler.yaml" ] || die "missing payload/Zscaler.yaml"
 
 if [ -f "$SECRETS" ]; then
 	# shellcheck disable=SC1090
 	. "$SECRETS"
-else
-	say "WARN: no secrets.env — using placeholders / skipping subscribe"
 fi
 
-: "${OPENCLASH_DASHBOARD_PASS:=changeme}"
+: "${OPENCLASH_DASHBOARD_PASS:=}"
 : "${SUB_URL:=}"
 : "${SUB_NAME:=ssLinks}"
 
-say "ROOT=$ROOT"
+say "ROOT=$ROOT (Zscaler-only)"
 say "model=$(cat /tmp/sysinfo/model 2>/dev/null || echo unknown) fw=$(cat /etc/glversion 2>/dev/null || echo ?)"
 
-# --- prerequisites ---
 if ! opkg list-installed 2>/dev/null | grep -q '^luci-app-openclash '; then
-	die "luci-app-openclash not installed. Install OpenClash from GL Apps / Softcenter first, then re-run."
+	die "luci-app-openclash not installed. Install OpenClash first, then re-run."
 fi
 if ! opkg list-installed 2>/dev/null | grep -q '^ruby '; then
-	die "ruby not installed (OpenClash overwrite needs it). Install ruby + ruby-yaml, then re-run."
+	die "ruby not installed (overwrite needs it). Install ruby + ruby-yaml, then re-run."
 fi
 
-mkdir -p /etc/openclash/custom /etc/openclash/config /etc/openclash/rule_provider /etc/tailscale
+mkdir -p /etc/openclash/custom /etc/openclash/config /etc/openclash/rule_provider
 
-# --- custom OpenClash files ---
-say "install OpenClash custom files"
+say "install Zscaler custom rules + provider + overwrite"
 cp -f "$PAYLOAD/openclash_custom_rules.list" /etc/openclash/custom/openclash_custom_rules.list
 cp -f "$PAYLOAD/openclash_custom_overwrite.sh" /etc/openclash/custom/openclash_custom_overwrite.sh
-for f in Zscaler.yaml MailSMTP.yaml Rebrickable.yaml Japan.yaml; do
-	[ -f "$PAYLOAD/$f" ] && cp -f "$PAYLOAD/$f" /etc/openclash/rule_provider/"$f"
-done
+cp -f "$PAYLOAD/Zscaler.yaml" /etc/openclash/rule_provider/Zscaler.yaml
 rm -f /etc/openclash/rule_provider/ZscalerDomains.yaml
-for n in rebrickable_nodes.txt japan_nodes.txt; do
-	[ -f "$PAYLOAD/$n" ] && cp -f "$PAYLOAD/$n" /etc/openclash/custom/"$n"
-done
-chmod 644 /etc/openclash/custom/openclash_custom_rules.list /etc/openclash/rule_provider/*.yaml 2>/dev/null || true
+chmod 644 /etc/openclash/custom/openclash_custom_rules.list /etc/openclash/rule_provider/Zscaler.yaml
 chmod 755 /etc/openclash/custom/openclash_custom_overwrite.sh
 
-# --- OpenClash UCI ---
-say "apply OpenClash UCI"
+say "enable OpenClash custom rules UCI"
 uci set openclash.config.enable='1'
 uci set openclash.config.core_type='Meta'
 uci set openclash.config.enable_custom_clash_rules='1'
 uci set openclash.config.enable_respect_rules='1'
-uci set openclash.config.enable_redirect_dns='1'
-uci set openclash.config.redirect_dns='1'
-uci set openclash.config.enable_udp_proxy='1'
-uci set openclash.config.enable_meta_sniffer='1'
-uci set openclash.config.enable_meta_sniffer_pure_ip='1'
-uci set openclash.config.proxy_mode='rule'
-uci set openclash.config.operation_mode='fake-ip'
-uci set openclash.config.en_mode='fake-ip'
-uci set openclash.config.ipv6_enable='0'
-uci set openclash.config.ipv6_dns='0'
-uci set openclash.config.mixed_port='7893'
-uci set openclash.config.default_dashboard='zashboard'
-uci set openclash.config.dashboard_password="$OPENCLASH_DASHBOARD_PASS"
-uci set openclash.config.config_path='/etc/openclash/config/ssLinks.yaml'
-
-# subscription
+[ -n "$OPENCLASH_DASHBOARD_PASS" ] && uci set openclash.config.dashboard_password="$OPENCLASH_DASHBOARD_PASS"
 if [ -n "$SUB_URL" ]; then
-	# ensure at least one config_subscribe section
 	if ! uci -q get openclash.@config_subscribe[0] >/dev/null; then
 		uci add openclash config_subscribe >/dev/null
 	fi
@@ -89,66 +61,25 @@ if [ -n "$SUB_URL" ]; then
 	uci set openclash.@config_subscribe[0].sub_ua='clash.meta'
 	uci set openclash.config.config_path="/etc/openclash/config/${SUB_NAME}.yaml"
 	say "subscription URL set ($SUB_NAME)"
-else
-	say "WARN: SUB_URL empty — add subscription in Luci OpenClash after install"
 fi
 uci commit openclash
 
-# --- LAN/WAN IPv6 off (matches home-network policy) ---
-say "disable LAN RA/DHCPv6 + WAN IPv6"
-uci set dhcp.lan.ra='disabled'
-uci set dhcp.lan.dhcpv6='disabled'
-uci -q set dhcp.lan.ndp='disabled' || true
-uci set network.wan.ipv6='0'
-uci -q delete network.lan.ip6assign || true
-uci -q delete network.lan.ip6hint || true
-uci -q delete network.lan.ip6ifaceid || true
-uci -q delete network.lan.ip6class || true
-uci commit dhcp
-uci commit network
-/etc/init.d/odhcpd restart >/dev/null 2>&1 || true
-
-# --- Tailscale (enable only; login separately) ---
-if [ -f "$PAYLOAD/uci-tailscale" ]; then
-	say "install Tailscale UCI (enabled=1; auth still needed)"
-	cp -f "$PAYLOAD/uci-tailscale" /etc/config/tailscale
-	uci set tailscale.settings.enabled='1'
-	uci commit tailscale
-	[ -x /etc/init.d/tailscale ] && /etc/init.d/tailscale enable || true
-fi
-
-# --- pull subscription + restart OpenClash ---
 say "restart OpenClash"
 /etc/init.d/openclash stop >/dev/null 2>&1 || true
 sleep 1
-
-# OpenClash update subscribe if helper exists
-if [ -n "$SUB_URL" ] && [ -x /usr/share/openclash/openclash.sh ]; then
-	say "try OpenClash subscribe update"
-	# common entrypoints differ by version — best-effort
-	/usr/share/openclash/openclash.sh reload >/dev/null 2>&1 || true
-fi
-
 /etc/init.d/openclash start || die "openclash start failed"
 sleep 4
 
-# verify custom bits landed after first start/overwrite
-if [ -f /etc/openclash/ssLinks.yaml ] || [ -f /etc/openclash/config/ssLinks.yaml ]; then
-	CFG=/etc/openclash/ssLinks.yaml
-	[ -f /etc/openclash/config/ssLinks.yaml ] && CFG=/etc/openclash/config/ssLinks.yaml
-	if grep -q 'RULE-SET,Zscaler' "$CFG" 2>/dev/null || grep -q 'AppleMedia,手动' "$CFG" 2>/dev/null; then
-		say "OK: custom rules present in $CFG"
-	else
-		say "WARN: config exists but custom rules not visible yet — open Luci → OpenClash → update subscription once"
-	fi
+CFG=""
+[ -f /etc/openclash/ssLinks.yaml ] && CFG=/etc/openclash/ssLinks.yaml
+[ -f /etc/openclash/config/ssLinks.yaml ] && CFG=/etc/openclash/config/ssLinks.yaml
+if [ -n "$CFG" ] && grep -q 'RULE-SET,Zscaler' "$CFG" 2>/dev/null; then
+	say "OK: RULE-SET,Zscaler present in $CFG"
+elif [ -n "$CFG" ]; then
+	say "WARN: config exists but Zscaler rule not visible yet — update subscription once in Luci"
 else
-	say "WARN: no ssLinks.yaml yet — update subscription in Luci OpenClash"
+	say "WARN: no config yaml yet — set subscription in Luci, then restart OpenClash"
 fi
 
-say "DONE"
-say "Next:"
-say "  1) Luci OpenClash: update subscription if config empty"
-say "  2) Set 手动选择 → 自动选择; Apple → DIRECT"
-say "  3) Tailscale: luci or 'tailscale up' to login"
-say "log: $LOG"
+say "DONE (Zscaler-only). log: $LOG"
 exit 0

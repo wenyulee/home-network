@@ -1,0 +1,3 @@
+rules:
+## Zscaler only (bootstrap): domains + official IPs → 手动选择
+- RULE-SET,Zscaler,手动选择,no-resolve
