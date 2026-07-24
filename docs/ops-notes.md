@@ -17,15 +17,18 @@
 
 排障「代理很慢／選到怪節點」時先確認沒被假節點污染。
 
-## 郵件與 Rebrickable
+## 郵件、Rebrickable 與 AI
 
 | 流量 | 策略 | 原因（對話脈絡） |
 |------|------|------------------|
-| 多數 SMTP（587/465、iCloud／Purelymail 等） | DIRECT | 避免代理干擾寄信 |
-| `smtp.gmail.com`（及部分 Google SMTP IP:port） | B：`gmail-out` → `via-RouterA` fallback DIRECT | 經 A mixed-port 出站較穩 |
-| Rebrickable | 西班牙節點 | 站點／區鎖需求 |
+| 多數 SMTP（587/465、iCloud／Purelymail／Gmail 等）+ Purelymail IMAP | `RULE-SET,Mail,DIRECT` | 避免代理干擾寄信收信；IMAP 是 2026-07-24 補的，之前只擋了 SMTP 587/465，`imap.purelymail.com` 一直漏到漏网之鱼 |
+| Rebrickable | Rebrickable url-test 組 | 站點／區鎖需求 |
+| Japan（`.jp` + taigatakahashi.com） | Japan url-test 組 | 見 README「目前生效的關鍵策略」 |
+| Claude/claudeusercontent、Cursor/cursorapi、Gemini | `RULE-SET,AI,Ai+` | 訂閱 `OpenAI.yaml`/`Google.yaml` 沒涵蓋或分錯組；透過實測 B 的 `漏网之鱼` 連線統計抓出 `cursorapi.com`、A 即時連線抓出 `claudeusercontent.com` 這兩個當初漏掉的網域 |
 
-規則在 A `rules.yaml`、B custom rules + overwrite；改訂閱後靠腳本重插最前。
+規則在 A `rules.yaml`、B `openclash_custom_rules.list` + overwrite；改訂閱後靠腳本重插最前。`Mail`/`AI` 都是獨立的 classical rule-provider 檔案（`ruleset/Mail.yaml`、`ruleset/AI.yaml`），跟 Zscaler/Rebrickable/Japan 同一套模式，不是寫死在規則清單裡的 inline domain。
+
+> 舊版 B 曾用 `gmail-out` → `via-RouterA`（經 A mixed-port 出站）處理 Gmail SMTP；已於 2026-07-23 移除，overwrite 現在會主動清掉任何殘留的 `gmail-out`/`via-RouterA`，郵件一律走上表的 `Mail` → DIRECT。
 
 ## 為何當初只有 A 有「國內 DNS 病」
 

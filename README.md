@@ -24,7 +24,7 @@ docs/changelog/
 backups/snapshot-*
 ```
 
-## 目前生效的關鍵策略（2026-07-23）
+## 目前生效的關鍵策略（2026-07-24）
 
 ### 訂製規則（A/B 對齊；插在訂閱規則最前）
 
@@ -32,11 +32,12 @@ backups/snapshot-*
 |-----------------|------|------|
 | `Zscaler` | 手动选择 | 單一 classical：域名 + 官方 IP（`ruleset/Zscaler.yaml`） |
 | `AppleMedia` | 手动选择 | **同一份**訂閱規則集；前置覆蓋預設的 `AppleMedia→Apple`（Apple 其餘仍可 DIRECT） |
-| `MailSMTP` | DIRECT | Gmail / iCloud SMTP、587/465、Google SMTP IP |
+| `Mail` | DIRECT | Gmail / iCloud / Purelymail SMTP（587/465）+ IMAP（`imap.purelymail.com`）、Google SMTP IP |
 | `Rebrickable` | **Rebrickable** 組 | url-test ≈30 個 CF 可用節點（非單一西班牙） |
 | `Japan` | **Japan** 組 | `.jp` + `taigatakahashi.com` → 🇯🇵 url-test |
 | Firstrade | api3x/streamingx/invest→手动选择；其餘 DIRECT | App CDN 走代理；官網回家寬 IP |
 | LinkedIn | `.com`→全球代理；`.cn`→REJECT | hosts / DoH 在 overwrite／user |
+| `AI` | **Ai+** 組 | `ruleset/AI.yaml`：Claude/claudeusercontent、Cursor/cursorapi、Gemini 等訂閱 `OpenAI.yaml`/`Google.yaml` 沒涵蓋或分錯組的網域；ChatGPT/Codex 已靠訂閱 `OpenAI.yaml` 涵蓋，不用另加 |
 
 訂閱更新會刷新機場主規則；**本地 `rules.yaml` / custom_rules + hook 會再插回最前**，不會被訂閱蓋掉。
 
@@ -48,11 +49,13 @@ backups/snapshot-*
 4. **雙重代理**：B 掛 A 後；A `ip_filter` 保持清空。B 側部分客戶端依賴雙層代理，見 changelog  
 5. **Tailscale**：A/B 同 Tailnet、無 exit／subnet；見 `docs/tailscale.md`  
 6. **ShellCrash**：訂閱走 `update_sub_clean.sh`（104/204）；勿升 1.9.5**beta1**
+7. **Zscaler IP 表**：A（隨每日訂閱更新）與 B（獨立 cron `55 3 * * *`，不依賴 A 在線，適合 B 帶出門）各自更新；IPv4 CIDR 經 containment dedup 壓縮（~2500→~800 條，覆蓋範圍不變）
+8. **A 連線紀錄**：ShellCrash 原廠啟動腳本把 CrashCore 的 log 導去 `/dev/null`；`custom/log_capture.sh`（掛在 `task-afstart`，接 Mihomo `/logs` API）另外把它存到 `/tmp/ShellCrash/traffic.log`，讓 A 也能像 B 的 `/tmp/openclash.log` 一樣查歷史連線
 
 ## 還原提示
 
 - **不要**把完整訂閱 `config.yaml` / `ssLinks.yaml` 直接覆蓋上機；只套用 `custom/`，再重載核心。
 - 快照見 `backups/snapshot-*`；還原見該目錄 `README.md`。
-- A：改 `yamls/*` 後 `start.sh restart`（會重合併 `rules.yaml`）；或 `PUT /configs?force=true`。
-- B：改 `custom/*` 後 `/etc/init.d/openclash restart`（overwrite 注入 runtime）。
+- 改「規則清單」（A `rules.yaml` / B `openclash_custom_rules.list`）**只能**靠重啟才會重新合併——A `start.sh restart`、B `/etc/init.d/openclash restart`。A 的 `PUT /configs?force=true` 只是叫核心重讀當下的 runtime config，**不會**觸發 `rules.yaml` 合併，對規則清單改動沒用（2026-07-24 實測確認）。
+- A／B 皆同：`ruleset/*.yaml` 這類 **rule-provider 檔案**（Zscaler/Mail/Rebrickable/Japan/AI）改了**不用重啟**，Mihomo 核心會依檔案 mtime 自動重讀，兩邊都實測驗證過。
 - 新 B：`router-b-gl-mt3000/usb-bootstrap/`。

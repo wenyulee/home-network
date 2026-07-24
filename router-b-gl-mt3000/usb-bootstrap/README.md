@@ -7,7 +7,8 @@
 | 会装 | 不会自动装 |
 |------|------------|
 | custom rules / overwrite | OpenClash 本体（需先在 GL Apps 装好） |
-| rule-providers：`Zscaler` / `MailSMTP` / `Rebrickable` + `rebrickable_nodes.txt` | Tailscale **登录态**（需 `tailscale up`） |
+| rule-providers：`Zscaler` / `Mail` / `Rebrickable` / `Japan` / `AI` + `rebrickable_nodes.txt` / `japan_nodes.txt` | Tailscale **登录态**（需 `tailscale up`） |
+| `update_zscaler_ruleset.sh` + cron（`55 3 * * *`，独立于 A） | |
 | OpenClash 主要 UCI（Meta、fake-ip、custom rules、仪表盘密码等） | 机场节点本身（装完后要 Update 一次订阅） |
 | 订阅地址（`secrets.env`） | 根密码 / Wi‑Fi SSID / LAN 网段 |
 | LAN RA/DHCPv6、WAN IPv6 关闭；Tailscale UCI `enabled=1` | 插上自动执行（需手动跑 `install.sh`） |
@@ -33,8 +34,9 @@ chmod +x prepare-usb.sh install.sh
   payload/
     openclash_custom_overwrite.sh
     openclash_custom_rules.list
-    rebrickable_nodes.txt
-    Zscaler.yaml  MailSMTP.yaml  Rebrickable.yaml
+    update_zscaler_ruleset.sh
+    rebrickable_nodes.txt  japan_nodes.txt
+    Zscaler.yaml  Mail.yaml  Rebrickable.yaml  Japan.yaml  AI.yaml
     uci-tailscale
 ```
 
