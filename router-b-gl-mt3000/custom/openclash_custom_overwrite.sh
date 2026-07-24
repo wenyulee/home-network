@@ -94,10 +94,11 @@ begin
     "path" => "./rule_provider/Zscaler.yaml"
   }
   d["rule-providers"].delete("ZscalerDomains")
-  d["rule-providers"]["MailSMTP"] = {
+  d["rule-providers"].delete("MailSMTP")
+  d["rule-providers"]["Mail"] = {
     "type" => "file",
     "behavior" => "classical",
-    "path" => "./rule_provider/MailSMTP.yaml"
+    "path" => "./rule_provider/Mail.yaml"
   }
   d["rule-providers"]["Rebrickable"] = {
     "type" => "file",
@@ -108,6 +109,11 @@ begin
     "type" => "file",
     "behavior" => "classical",
     "path" => "./rule_provider/Japan.yaml"
+  }
+  d["rule-providers"]["AI"] = {
+    "type" => "file",
+    "behavior" => "classical",
+    "path" => "./rule_provider/AI.yaml"
   }
 
   d["rules"] ||= []
@@ -128,9 +134,16 @@ begin
   end
 
   File.open(f, "w") { |fh| YAML.dump(d, fh) }
-rescue Exception => e
+rescue StandardError => e
   STDERR.puts "overwrite error: #{e}"
 end
 ' "$CONFIG_FILE" 2>>/tmp/openclash.log
 
+# NOTE: always exits 0 by design so OpenClash startup never blocks on this
+# script; on error above, $CONFIG_FILE is left untouched (no partial write —
+# the rescue fires before File.open) and the failure is only visible in
+# /tmp/openclash.log ("overwrite error: ..."). There is no automatic signal
+# to the caller that fake-node stripping / DNS hardening / Rebrickable /
+# Japan groups were NOT applied — check the log after subscription updates
+# if 手动选择/自动选择/Rebrickable/Japan groups look wrong.
 exit 0

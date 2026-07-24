@@ -20,9 +20,10 @@ chmod +x "$BOOT/install.sh"
 
 cp -f "$HERE/../custom/openclash_custom_rules.list" "$BOOT/payload/"
 cp -f "$HERE/../custom/openclash_custom_overwrite.sh" "$BOOT/payload/"
+cp -f "$HERE/../custom/update_zscaler_ruleset.sh" "$BOOT/payload/"
 cp -f "$HERE/../custom/tailscale/uci-tailscale" "$BOOT/payload/"
 RS="$REPO/router-a-asus-merlin/custom/ruleset"
-cp -f "$RS/Zscaler.yaml" "$RS/MailSMTP.yaml" "$RS/Rebrickable.yaml" "$RS/Japan.yaml" "$BOOT/payload/"
+cp -f "$RS/Zscaler.yaml" "$RS/Mail.yaml" "$RS/Rebrickable.yaml" "$RS/Japan.yaml" "$RS/AI.yaml" "$BOOT/payload/"
 # optional node lists
 for n in rebrickable_nodes.txt japan_nodes.txt; do
 	if [ -f "$HERE/../custom/$n" ]; then
@@ -31,7 +32,7 @@ for n in rebrickable_nodes.txt japan_nodes.txt; do
 		cp -f "$REPO/router-a-asus-merlin/custom/$n" "$BOOT/payload/"
 	fi
 done
-chmod +x "$BOOT/payload/openclash_custom_overwrite.sh"
+chmod +x "$BOOT/payload/openclash_custom_overwrite.sh" "$BOOT/payload/update_zscaler_ruleset.sh"
 
 if [ -f "$HERE/secrets.env" ]; then
 	cp -f "$HERE/secrets.env" "$BOOT/secrets.env"

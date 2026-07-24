@@ -13,9 +13,11 @@
 - DOMAIN-SUFFIX,licdn.com,全球代理
 - DOMAIN-SUFFIX,linkedin.cn,REJECT
 - DOMAIN-SUFFIX,licdn.cn,REJECT
-# Mail SMTP → DIRECT (see ruleset/MailSMTP.yaml)
-- RULE-SET,MailSMTP,DIRECT
+# Mail (SMTP + IMAP) → DIRECT (see ruleset/Mail.yaml)
+- RULE-SET,Mail,DIRECT
 # Rebrickable → url-test group (see ruleset/Rebrickable.yaml + rebrickable_nodes.txt)
 - RULE-SET,Rebrickable,Rebrickable
 # .jp + taigatakahashi.com → Japan url-test (see ruleset/Japan.yaml + japan_nodes.txt)
 - RULE-SET,Japan,Japan
+# AI: domains missing from/misrouted by subscription's own rule-providers (see ruleset/AI.yaml)
+- RULE-SET,AI,Ai+

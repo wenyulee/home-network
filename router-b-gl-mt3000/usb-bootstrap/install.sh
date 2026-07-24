@@ -46,15 +46,25 @@ mkdir -p /etc/openclash/custom /etc/openclash/config /etc/openclash/rule_provide
 say "install OpenClash custom files"
 cp -f "$PAYLOAD/openclash_custom_rules.list" /etc/openclash/custom/openclash_custom_rules.list
 cp -f "$PAYLOAD/openclash_custom_overwrite.sh" /etc/openclash/custom/openclash_custom_overwrite.sh
-for f in Zscaler.yaml MailSMTP.yaml Rebrickable.yaml Japan.yaml; do
+for f in Zscaler.yaml Mail.yaml Rebrickable.yaml Japan.yaml AI.yaml; do
 	[ -f "$PAYLOAD/$f" ] && cp -f "$PAYLOAD/$f" /etc/openclash/rule_provider/"$f"
 done
-rm -f /etc/openclash/rule_provider/ZscalerDomains.yaml
+rm -f /etc/openclash/rule_provider/ZscalerDomains.yaml /etc/openclash/rule_provider/MailSMTP.yaml
 for n in rebrickable_nodes.txt japan_nodes.txt; do
 	[ -f "$PAYLOAD/$n" ] && cp -f "$PAYLOAD/$n" /etc/openclash/custom/"$n"
 done
 chmod 644 /etc/openclash/custom/openclash_custom_rules.list /etc/openclash/rule_provider/*.yaml 2>/dev/null || true
 chmod 755 /etc/openclash/custom/openclash_custom_overwrite.sh
+
+# --- independent Zscaler IP-range refresh (no dependency on Router A) ---
+if [ -f "$PAYLOAD/update_zscaler_ruleset.sh" ]; then
+	cp -f "$PAYLOAD/update_zscaler_ruleset.sh" /etc/openclash/custom/update_zscaler_ruleset.sh
+	chmod 755 /etc/openclash/custom/update_zscaler_ruleset.sh
+	if ! crontab -l 2>/dev/null | grep -q "zscaler-ruleset-refresh"; then
+		(crontab -l 2>/dev/null; echo "55 3 * * * /etc/openclash/custom/update_zscaler_ruleset.sh #zscaler-ruleset-refresh") | crontab -
+		say "Zscaler refresh cron installed (55 3 * * *)"
+	fi
+fi
 
 # --- OpenClash UCI ---
 say "apply OpenClash UCI"

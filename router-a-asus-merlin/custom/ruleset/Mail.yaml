@@ -1,5 +1,10 @@
-# Classical ruleset: outbound SMTP / mail submission → DIRECT
-# (airport nodes often block 587/465; keep home ISP path)
+# Classical ruleset: mail (SMTP submission + IMAP) → DIRECT
+# (airport nodes often block 587/465/993; keep home ISP path)
+# NOTE: the two DST-PORT rules below are intentionally unscoped by domain/IP —
+# ANY TCP connection to port 587 or 465, to any destination, matches and goes
+# DIRECT. This is deliberate (force all mail submission off the proxy path),
+# not an oversight; if that stops being the intent, scope these like the
+# Gmail AND,(...,(IP-CIDR,...)) rules below instead.
 payload:
   - DST-PORT,587
   - DST-PORT,465
@@ -10,6 +15,7 @@ payload:
   - DOMAIN,smtp.googlemail.com
   - DOMAIN,smtp-relay.gmail.com
   - DOMAIN,smtp.purelymail.com
+  - DOMAIN,imap.purelymail.com
   # Gmail SMTP by Google IP + port (when client skips hostname)
   - AND,((NETWORK,TCP),(DST-PORT,587),(IP-CIDR,74.125.0.0/16))
   - AND,((NETWORK,TCP),(DST-PORT,465),(IP-CIDR,74.125.0.0/16))

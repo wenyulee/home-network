@@ -14,9 +14,11 @@ rules:
 - DOMAIN,invest.firstrade.com,手动选择
 - DOMAIN-SUFFIX,firstrade.com,DIRECT
 - DOMAIN-SUFFIX,firstrade.net,DIRECT
-## Mail SMTP → DIRECT (rule_provider/MailSMTP.yaml)
-- RULE-SET,MailSMTP,DIRECT
+## Mail (SMTP + IMAP) → DIRECT (rule_provider/Mail.yaml)
+- RULE-SET,Mail,DIRECT
 ## Rebrickable → url-test group (rule_provider/Rebrickable.yaml)
 - RULE-SET,Rebrickable,Rebrickable
 ## .jp + taigatakahashi.com → Japan url-test
 - RULE-SET,Japan,Japan
+## AI: domains missing from/misrouted by subscription's own rule-providers (rule_provider/AI.yaml)
+- RULE-SET,AI,Ai+

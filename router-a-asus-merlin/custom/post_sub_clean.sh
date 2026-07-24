@@ -142,19 +142,22 @@ awk '
   /Zscaler:[[:space:]]*\{/ { next }
   /ZscalerDomains:[[:space:]]*\{/ { next }
   /MailSMTP:[[:space:]]*\{/ { next }
+  /Mail:[[:space:]]*\{/ { next }
   /Rebrickable:[[:space:]]*\{ type: file/ { next }
   /Japan:[[:space:]]*\{ type: file/ { next }
+  /AI:[[:space:]]*\{ type: file/ { next }
   /^rule-providers:/ {
     print
     print "    Zscaler: { type: file, behavior: classical, path: ./ruleset/Zscaler.yaml }"
-    print "    MailSMTP: { type: file, behavior: classical, path: ./ruleset/MailSMTP.yaml }"
+    print "    Mail: { type: file, behavior: classical, path: ./ruleset/Mail.yaml }"
     print "    Rebrickable: { type: file, behavior: classical, path: ./ruleset/Rebrickable.yaml }"
     print "    Japan: { type: file, behavior: classical, path: ./ruleset/Japan.yaml }"
+    print "    AI: { type: file, behavior: classical, path: ./ruleset/AI.yaml }"
     next
   }
   { print }
 ' "$SRC" > /tmp/sslinks-providers.$$ && mv -f /tmp/sslinks-providers.$$ "$SRC"
-say "Local rule-providers injected (Zscaler/MailSMTP/Rebrickable/Japan)"
+say "Local rule-providers injected (Zscaler/Mail/Rebrickable/Japan/AI)"
 
 # 2e. Inject Rebrickable url-test group (CF-safe nodes only; see rebrickable_nodes.txt)
 RB_NODES_FILE=/jffs/ShellCrash/yamls/rebrickable_nodes.txt
@@ -239,9 +242,10 @@ if [ ! -s "$RULES" ]; then
 cat > "$RULES" <<'RULESEOF'
 # ShellCrash 自定义规则（启动时自动插入最前）
 - RULE-SET,Zscaler,手动选择,no-resolve
-- RULE-SET,MailSMTP,DIRECT
+- RULE-SET,Mail,DIRECT
 - RULE-SET,Rebrickable,Rebrickable
 - RULE-SET,Japan,Japan
+- RULE-SET,AI,Ai+
 RULESEOF
 fi
 exit 0

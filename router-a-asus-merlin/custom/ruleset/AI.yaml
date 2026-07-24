@@ -1,0 +1,13 @@
+# Classical ruleset: AI tool domains missing from (or misrouted by) the
+# subscription's own rule-providers → Ai+. Subscription's OpenAI.yaml already
+# covers ChatGPT/Codex (openai.com, chatgpt.com, chat.com) — not duplicated here.
+payload:
+  - DOMAIN-SUFFIX,claude.com
+  - DOMAIN-SUFFIX,claudeusercontent.com
+  - DOMAIN-SUFFIX,cursor.sh
+  - DOMAIN-SUFFIX,cursor.com
+  - DOMAIN-SUFFIX,cursorapi.com
+  # Gemini: split out of the general Google group (google.com/googleapis.com suffix match)
+  - DOMAIN-SUFFIX,gemini.google.com
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com
+  - DOMAIN-SUFFIX,aistudio.google.com
