@@ -1,23 +1,37 @@
-#!/bin/ash
-# Fetch official Zscaler IP ranges → Clash classical rule-provider (domains + IP-CIDR).
-# IPv4 CIDRs are collapsed (drop entries already covered by a broader CIDR in the
-# same fetch) via a pure-arithmetic awk pass — no bitwise awk extensions, no python3
-# needed, verified equivalent coverage against the raw set. IPv6 stays dedup-only
-# (small count, not worth the extra bit-math risk).
+#!/bin/sh
+# Router B (OpenWrt, mobile — no dependency on Router A): fetch official Zscaler
+# IP ranges → Clash classical rule-provider (domains + IP-CIDR), independently of
+# whatever WAN B currently has (home double-proxy behind A, cellular, other Wi-Fi).
+# Tries a direct fetch first (works on any network); falls back to B's own
+# mixed-port proxy only if direct fails. IPv4 CIDRs are collapsed (containment
+# dedup, coverage-preserving — see router-a-asus-merlin/custom/update_zscaler_ruleset.sh
+# for the verified algorithm, identical here). IPv6 stays dedup-only.
 set -e
-OUT="${1:-/jffs/ShellCrash/ruleset/Zscaler.yaml}"
-TMPDIR="/tmp/zscaler-fetch.$$"
+OUT="${1:-/etc/openclash/rule_provider/Zscaler.yaml}"
+TMPDIR="/tmp/zscaler-fetch-b.$$"
 mkdir -p "$TMPDIR" "$(dirname "$OUT")"
-LOG=/tmp/ShellCrash/ShellCrash.log
-say() { echo "$(date "+%Y-%m-%d_%H:%M:%S")~$1" >>"$LOG" 2>/dev/null; echo "zscaler_ruleset: $1" >&2; }
+LOG=/tmp/openclash.log
+say() { echo "$(date "+%Y-%m-%d_%H:%M:%S")~$1" >>"$LOG" 2>/dev/null; echo "zscaler_ruleset(B): $1" >&2; }
 
-AUTH=$(grep "^authentication=" /jffs/ShellCrash/configs/ShellCrash.cfg 2>/dev/null | sed "s/^authentication=//;s/^'//;s/'$//")
+MIXED_PORT=$(uci -q get openclash.config.mixed_port || echo 7893)
+AUTH_ENABLED=$(uci -q get openclash.@authentication[0].enabled 2>/dev/null || echo 0)
+AUTH=""
+if [ "$AUTH_ENABLED" = "1" ]; then
+	AUTH_USER=$(uci -q get openclash.@authentication[0].username 2>/dev/null || true)
+	AUTH_PASS=$(uci -q get openclash.@authentication[0].password 2>/dev/null || true)
+	[ -n "$AUTH_USER" ] && AUTH="${AUTH_USER}:${AUTH_PASS}"
+fi
+
 fetch() {
 	url="$1"; out="$2"
+	# direct first — no dependency on B's own proxy state when mobile
+	curl -fsSL --connect-timeout 8 --max-time 30 -o "$out" "$url" && return 0
 	if [ -n "$AUTH" ]; then
-		curl -fsSL --connect-timeout 12 --max-time 45 -x "http://${AUTH}@127.0.0.1:7890" -o "$out" "$url" && return 0
+		curl -fsSL --connect-timeout 12 --max-time 45 -x "http://${AUTH}@127.0.0.1:${MIXED_PORT}" -o "$out" "$url" && return 0
+	else
+		curl -fsSL --connect-timeout 12 --max-time 45 -x "http://127.0.0.1:${MIXED_PORT}" -o "$out" "$url" && return 0
 	fi
-	curl -fsSL --connect-timeout 12 --max-time 45 -o "$out" "$url"
+	return 1
 }
 
 ok=0
@@ -41,7 +55,6 @@ cnt=$(wc -l <"$RAW" | tr -d ' ')
 [ "$cnt" -gt 50 ] || { say "too few cidrs ($cnt)"; rm -rf "$TMPDIR"; exit 1; }
 
 # Collapse IPv4: drop any /n fully covered by a broader CIDR already in the set.
-# Requires broadest-prefix-first input order (sort by prefix length ascending).
 V4RAW="$TMPDIR/v4.txt"
 V6RAW="$TMPDIR/v6.txt"
 grep -v ':' "$RAW" >"$V4RAW" || true
