@@ -2,3 +2,7 @@
 
 # full TCP intercept for selected MACs (Zscaler-like ports)
 /jffs/ShellCrash/scripts/fulltcp_by_mac.sh
+
+# persist per-connection match log (see docs/log_capture.sh header); self-healing,
+# safe to call on every (re)start — no-ops if already running
+/jffs/ShellCrash/scripts/log_capture.sh
